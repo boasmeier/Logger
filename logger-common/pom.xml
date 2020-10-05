@@ -55,7 +55,11 @@
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
-        </dependency>        
+        </dependency>
+        <dependency>
+            <groupId>ch.hslu.vsk20hs</groupId>
+            <artifactId>loggerinterface</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

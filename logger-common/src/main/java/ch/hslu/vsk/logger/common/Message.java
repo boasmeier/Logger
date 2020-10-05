@@ -7,6 +7,8 @@
  */
 package ch.hslu.vsk.logger.common;
 
+import ch.hslu.vsk.logger.api.LogLevel;
+
 import java.time.Instant;
 import java.util.Objects;
 import java.util.UUID;
@@ -21,11 +23,11 @@ public class Message {
     private final UUID uuid;
     private final String content;
     //TODO (hellerto): Replace with real implementation
-    private final String logLevel;
+    private final LogLevel logLevel;
     private final Instant createdAt;
     private Instant receivedAt;
 
-    public Message(String logLevel, String content) {
+    public Message(LogLevel logLevel, String content) {
         this.uuid = UUID.randomUUID();
         this.content = content;
         this.logLevel = logLevel;
@@ -40,7 +42,7 @@ public class Message {
         return content;
     }
 
-    public String getLogLevel() {
+    public LogLevel getLogLevel() {
         return logLevel;
     }
 
