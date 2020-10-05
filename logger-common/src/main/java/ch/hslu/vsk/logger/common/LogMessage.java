@@ -21,7 +21,6 @@ public final class LogMessage {
 
     private final UUID uuid;
     private final String message;
-    //TODO (hellerto): Replace with real implementation
     private final LogLevel logLevel;
     private final Instant createdAt;
     private Instant receivedAt;
