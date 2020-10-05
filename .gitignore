@@ -1,4 +1,6 @@
 /target/
+/.idea/
 **/*.log
 /logger-common/nbproject/
 /logger-component/nbproject/
+*.iml
