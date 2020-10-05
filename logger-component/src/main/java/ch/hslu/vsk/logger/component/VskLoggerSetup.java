@@ -8,7 +8,6 @@
 package ch.hslu.vsk.logger.component;
 
 import ch.hslu.vsk.logger.api.*;
-
 import java.net.InetAddress;
 
 /**
@@ -19,14 +18,15 @@ import java.net.InetAddress;
 public class VskLoggerSetup implements LoggerSetup {
     private LogLevel minimumLevel = LogLevel.INFO;
     private String name;
-    private InetAddress ip;
+    private InetAddress serverIp;
 
     /**
-     * Creates or uses existing VskLogger.
+     * Creates VskLogger with current settings.
      * @return VskLogger instance
      */
+    @Override
     public Logger createLogger(){
-        return VskLogger.getInstance();
+        return new VskLogger(minimumLevel, serverIp);
     }
 
     /**
@@ -46,10 +46,10 @@ public class VskLoggerSetup implements LoggerSetup {
     }
 
     /**
-     * Set ip address of the server the logs are getting sent.
-     * @param ip The ip address.
+     * Set serverIp address of the server the logs are getting sent.
+     * @param ip The serverIp address.
      */
     public void setLoggerServer(final InetAddress ip){
-        this.ip = ip;
+        this.serverIp = ip;
     }
 }

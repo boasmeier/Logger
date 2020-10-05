@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 
 /**
  *
- * @author toebi
+ * @author Tobias Heller
  */
 public class VskLoggerSetupTest {
     
