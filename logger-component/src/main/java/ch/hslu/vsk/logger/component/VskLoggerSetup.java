@@ -7,7 +7,7 @@
 */
 package ch.hslu.vsk.logger.component;
 
-import ch.hslu.vsk.logger.api.LogLevel;
+import ch.hslu.vsk.logger.api.*;
 
 import java.net.InetAddress;
 
@@ -16,9 +16,7 @@ import java.net.InetAddress;
  * @author Tobias Heller
  */
 
-//TODO (hellerto): Implements LoggerSetup interface
-
-public class VskLoggerSetup {
+public class VskLoggerSetup implements LoggerSetup {
     private LogLevel minimumLevel = LogLevel.INFO;
     private String name;
     private InetAddress ip;
@@ -27,7 +25,7 @@ public class VskLoggerSetup {
      * Creates or uses existing VskLogger.
      * @return VskLogger instance
      */
-    public VskLogger createLogger(){
+    public Logger createLogger(){
         return VskLogger.getInstance();
     }
 

@@ -8,6 +8,7 @@
 package ch.hslu.vsk.logger.component;
 
 import ch.hslu.vsk.logger.api.LogLevel;
+import ch.hslu.vsk.logger.api.Logger;
 import ch.hslu.vsk.logger.common.Message;
 
 /**
@@ -20,11 +21,11 @@ public class VskLogger {
     
     private static VskLogger logger = null;
     
-    protected static VskLogger getInstance(){
+    protected static Logger getInstance(){
        if(logger == null){
            logger = new VskLogger();
        }
-       return logger;
+       return (Logger) logger;
     }    
     
     private VskLogger(){
