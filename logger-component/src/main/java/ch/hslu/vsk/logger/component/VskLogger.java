@@ -9,67 +9,130 @@ package ch.hslu.vsk.logger.component;
 
 import ch.hslu.vsk.logger.api.LogLevel;
 import ch.hslu.vsk.logger.api.Logger;
-import ch.hslu.vsk.logger.common.Message;
+import ch.hslu.vsk.logger.common.LogMessage;
+import ch.hslu.vsk.logger.common.MessageHelper;
+import java.net.InetAddress;
 
 /**
  * Code of Class VskLogger.
  *
  * @author Tobias Heller
  */
-//TODO (hellerto): Implements Logger interface
-public class VskLogger {
-    
+public class VskLogger implements Logger {
+
+    private LogLevel minLevel;
+    private InetAddress serverIp;
+
     private static VskLogger logger = null;
-    
-    protected static Logger getInstance(){
-       if(logger == null){
-           logger = new VskLogger();
-       }
-       return (Logger) logger;
-    }    
-    
-    private VskLogger(){
-        
-    }
-    
-    public void fatal(String message) {
-        fatal(message, null);
+
+    protected VskLogger(final LogLevel minLevel, final InetAddress serverIp) {
+        this.minLevel = minLevel;
+        this.serverIp = serverIp;
     }
 
-    public void fatal(String message, Exception ex) {
-        createMessage(LogLevel.FATAL, message, ex);
+    /**
+     * Sets the minimum Log Level of Messages sent.
+     *
+     * @param minLevel Minimum LogLevel.
+     */
+    @Override
+    public void setMinimumLevel(LogLevel minLevel) {
+        this.minLevel = minLevel;
     }
 
-    public void error(String message) {
-        createMessage(LogLevel.ERROR, message);
-    }
-
-    public void warn(String message) {
-        createMessage(LogLevel.WARN, message);
-    }
-
-    public void info(String message) {
-        createMessage(LogLevel.INFO, message);
-    }
-
-    public void debug(String message) {
-        createMessage(LogLevel.DEBUG, message);
-
-    }
-
+    /**
+     * Sends a Message of LogLevel.TRACE if minLevel is equal or lower than
+     * TRACE.
+     *
+     * @param message Message to send.
+     */
+    @Override
     public void trace(String message) {
         createMessage(LogLevel.TRACE, message);
     }
 
-    private void createMessage(LogLevel logLevel, String content) {
-        //TODO hellerto: Check for current Level
-        Message message = new Message(logLevel, content);
-        //TODO hellerto: Prepare for TCP/IP Transport
-        System.out.println(message);
+    /**
+     * Sends a Message of LogLevel.DEBUG if minLevel is equal or lower than
+     * DEBUG.
+     *
+     * @param message Message to send.
+     */
+    @Override
+    public void debug(String message) {
+        createMessage(LogLevel.DEBUG, message);
+    }
+
+    /**
+     * Sends a Message of LogLevel.INFO if minLevel is equal or lower than INFO.
+     *
+     * @param message Message to send.
+     */
+    @Override
+    public void info(String message) {
+        createMessage(LogLevel.INFO, message);
+    }
+
+    /**
+     * Sends a Message of LogLevel.WARN if minLevel is equal or lower than WARN.
+     *
+     * @param message Message to send.
+     */
+    @Override
+    public void warn(String message) {
+        createMessage(LogLevel.WARN, message);
+    }
+
+    /**
+     * Sends a Message of LogLevel.FATAL if minLevel is equal or lower than
+     * FATAL.
+     *
+     * @param message Message to send.
+     */
+    @Override
+    public void fatal(String message, Exception exception) {
+        createMessage(LogLevel.FATAL, message, exception);
+    }
+
+    /**
+     * Sends a Message of LogLevel.ERROR if minLevel is equal or lower than
+     * ERROR.
+     *
+     * @param message Message to send.
+     */
+    @Override
+    public void error(String message, Exception exception) {
+        createMessage(minLevel, message, exception);
+    }
+
+    /**
+     * Sends a Message of logLevel if minLevel is equal or lower than provided
+     * logLevel.
+     *
+     * @param logLevel LogLevel of Message to be sent.
+     * @param message Message to send.
+     */
+    @Override
+    public void log(LogLevel logLevel, String message) {
+        createMessage(logLevel, message);
+    }
+
+    private void createMessage(LogLevel logLevel, String message) {
+        if (shouldBeSent(logLevel)) {
+            LogMessage msg = new LogMessage(logLevel, message);
+            //TODO hellerto: Send to Server etc.
+        }
     }
 
     private void createMessage(LogLevel logLevel, String content, Exception ex) {
-        String formattedMessage = String.format("%s - %s - %s", content, ex.getLocalizedMessage(), ex.getStackTrace().toString());
-        createMessage(logLevel, formattedMessage);
+        createMessage(logLevel, MessageHelper.ExceptionMessageToString(content, ex));
+    }
+
+    private boolean shouldBeSent(final LogLevel logLevel) {
+        if (logLevel.compareTo(minLevel) >= 0) {
+            System.out.println("Message sent");
+            return true;
+        }
+        System.out.println("Message not sent");
+        return false;
     }
 }
