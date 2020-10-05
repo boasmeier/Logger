@@ -129,10 +129,8 @@ public class VskLogger implements Logger {
 
     private boolean shouldBeSent(final LogLevel logLevel) {
         if (logLevel.compareTo(minLevel) >= 0) {
-            System.out.println("Message sent");
             return true;
         }
-        System.out.println("Message not sent");
         return false;
     }
 }
