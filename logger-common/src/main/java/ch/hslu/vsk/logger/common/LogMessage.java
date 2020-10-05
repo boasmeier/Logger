@@ -1,5 +1,5 @@
 /**
- * Message.java
+ * LogMessage.java
  * Created on 05.10.2020
  *
  * Copyright(c) 2020 Tobias Heller.
@@ -8,38 +8,37 @@
 package ch.hslu.vsk.logger.common;
 
 import ch.hslu.vsk.logger.api.LogLevel;
-
 import java.time.Instant;
 import java.util.Objects;
 import java.util.UUID;
 
 /**
- * Code of Class Message.
+ * Code of Class LogMessage.
  *
  * @author Tobias Heller
  */
-public class Message {
+public final class LogMessage {
 
     private final UUID uuid;
-    private final String content;
+    private final String message;
     //TODO (hellerto): Replace with real implementation
     private final LogLevel logLevel;
     private final Instant createdAt;
     private Instant receivedAt;
 
-    public Message(LogLevel logLevel, String content) {
+    public LogMessage(final LogLevel logLevel, final String message) {
         this.uuid = UUID.randomUUID();
-        this.content = content;
+        this.message = message;
         this.logLevel = logLevel;
         this.createdAt = Instant.now();
     }
-    
+
     public UUID getUuid() {
         return uuid;
     }
 
-    public String getContent() {
-        return content;
+    public String getMessage() {
+        return message;
     }
 
     public LogLevel getLogLevel() {
@@ -53,33 +52,30 @@ public class Message {
     public Instant getReceivedAt() {
         return receivedAt;
     }
-    
-    public void setReceived(){
+
+    public void setReceived() {
         receivedAt = Instant.now();
     }
 
     @Override
     public String toString() {
-        return "Message{" + "uuid=" + uuid + ", content=" + content + ", logLevel=" + logLevel + ", createdAt=" + createdAt + ", receivedAt=" + receivedAt + '}';
+        return "Message{" + "uuid=" + uuid + ", message=" + message + ", logLevel=" + logLevel + ", createdAt=" + createdAt + ", receivedAt=" + receivedAt + '}';
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(uuid);
+        return Objects.hash(uuid, message, logLevel, createdAt);
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public final boolean equals(final Object obj) {
         if (this == obj) {
             return true;
         }
-        if (obj == null) {
+        if (!(obj instanceof LogMessage)) {
             return false;
         }
-        final Message other = (Message) obj;
-        if (!Objects.equals(this.uuid, other.uuid)) {
-            return false;
-        }
-        return true;
+        final LogMessage other = (LogMessage) obj;
+        return Objects.equals(this.uuid, other.uuid) && Objects.equals(this.message, other.message) && Objects.equals(this.logLevel, other.logLevel) && Objects.equals(this.createdAt, other.createdAt);
     }
 }
