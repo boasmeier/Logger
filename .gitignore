@@ -1,2 +1,4 @@
 /target/
 **/*.log
+/logger-common/nbproject/
+/logger-component/nbproject/
