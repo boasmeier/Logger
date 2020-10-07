@@ -18,7 +18,7 @@ import java.net.InetAddress;
  *
  * @author Tobias Heller
  */
-public class VskLogger implements Logger {
+public final class VskLogger implements Logger {
 
     private LogLevel minLevel;
     private InetAddress serverIp;
@@ -36,7 +36,7 @@ public class VskLogger implements Logger {
      * @param minLevel Minimum LogLevel.
      */
     @Override
-    public void setMinimumLevel(LogLevel minLevel) {
+    public void setMinimumLevel(final LogLevel minLevel) {
         this.minLevel = minLevel;
     }
 
@@ -47,7 +47,7 @@ public class VskLogger implements Logger {
      * @param message Message to send.
      */
     @Override
-    public void trace(String message) {
+    public void trace(final String message) {
         createMessage(LogLevel.TRACE, message);
     }
 
@@ -58,7 +58,7 @@ public class VskLogger implements Logger {
      * @param message Message to send.
      */
     @Override
-    public void debug(String message) {
+    public void debug(final String message) {
         createMessage(LogLevel.DEBUG, message);
     }
 
@@ -68,7 +68,7 @@ public class VskLogger implements Logger {
      * @param message Message to send.
      */
     @Override
-    public void info(String message) {
+    public void info(final String message) {
         createMessage(LogLevel.INFO, message);
     }
 
@@ -78,7 +78,7 @@ public class VskLogger implements Logger {
      * @param message Message to send.
      */
     @Override
-    public void warn(String message) {
+    public void warn(final String message) {
         createMessage(LogLevel.WARN, message);
     }
 
@@ -89,7 +89,7 @@ public class VskLogger implements Logger {
      * @param message Message to send.
      */
     @Override
-    public void fatal(String message, Exception exception) {
+    public void fatal(final String message, final Exception exception) {
         createMessage(LogLevel.FATAL, message, exception);
     }
 
@@ -100,7 +100,7 @@ public class VskLogger implements Logger {
      * @param message Message to send.
      */
     @Override
-    public void error(String message, Exception exception) {
+    public void error(final String message, final Exception exception) {
         createMessage(minLevel, message, exception);
     }
 
@@ -112,18 +112,18 @@ public class VskLogger implements Logger {
      * @param message Message to send.
      */
     @Override
-    public void log(LogLevel logLevel, String message) {
+    public void log(final LogLevel logLevel, final String message) {
         createMessage(logLevel, message);
     }
 
-    private void createMessage(LogLevel logLevel, String message) {
+    private void createMessage(final LogLevel logLevel, final String message) {
         if (shouldBeSent(logLevel)) {
             LogMessage msg = new LogMessage(logLevel, message);
             //TODO hellerto: Send to Server etc.
         }
     }
 
-    private void createMessage(LogLevel logLevel, String content, Exception ex) {
+    private void createMessage(final LogLevel logLevel, final String content, final Exception ex) {
         createMessage(logLevel, MessageHelper.ExceptionMessageToString(content, ex));
     }
 
