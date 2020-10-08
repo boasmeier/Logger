@@ -8,6 +8,7 @@
 package ch.hslu.vsk.logger.common;
 
 import ch.hslu.vsk.logger.api.LogLevel;
+import java.io.Serializable;
 import java.time.Instant;
 import java.util.Objects;
 import java.util.UUID;
@@ -17,14 +18,22 @@ import java.util.UUID;
  *
  * @author Tobias Heller
  */
-public final class LogMessage {
-
+public final class LogMessage implements Serializable {
+    
+    //With intention version 1
+    private static final long serialVersionUID = 1L;
     private final UUID uuid;
     private final String message;
     private final LogLevel logLevel;
     private final Instant createdAt;
     private Instant receivedAt;
 
+    /**
+     * Constructor of class LogMessage. Automatically generates an unique UUID and 
+     * stores the date and time of creation.
+     * @param logLevel The LogLevel this message has.
+     * @param message The actual message that should be stored.
+     */
     public LogMessage(final LogLevel logLevel, final String message) {
         this.uuid = UUID.randomUUID();
         this.message = message;
