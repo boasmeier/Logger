@@ -75,7 +75,7 @@ public final class LogMessage implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(uuid, message, logLevel, createdAt);
+        return Objects.hash(uuid, message, logLevel, createdAt, loggerName);
     }
 
     @Override
@@ -87,6 +87,10 @@ public final class LogMessage implements Serializable {
             return false;
         }
         final LogMessage other = (LogMessage) obj;
-        return Objects.equals(this.uuid, other.uuid) && Objects.equals(this.message, other.message) && Objects.equals(this.logLevel, other.logLevel) && Objects.equals(this.createdAt, other.createdAt);
+        return Objects.equals(this.uuid, other.uuid)
+                && Objects.equals(this.message, other.message)
+                && Objects.equals(this.logLevel, other.logLevel)
+                && Objects.equals(this.createdAt, other.createdAt)
+                && Objects.equals(this.loggerName, other.loggerName);
     }
 }
