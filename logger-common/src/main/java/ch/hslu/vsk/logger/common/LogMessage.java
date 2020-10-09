@@ -24,6 +24,7 @@ public final class LogMessage implements Serializable {
     private static final long serialVersionUID = 1L;
     private final UUID uuid;
     private final String message;
+    private final String loggerName;
     private final LogLevel logLevel;
     private final Instant createdAt;
     private Instant receivedAt;
@@ -32,11 +33,13 @@ public final class LogMessage implements Serializable {
      * Constructor of class LogMessage. Automatically generates an unique UUID and 
      * stores the date and time of creation.
      * @param logLevel The LogLevel this message has.
+     * @param loggerName The Name of the logger from where the Message was created.
      * @param message The actual message that should be stored.
      */
-    public LogMessage(final LogLevel logLevel, final String message) {
+    public LogMessage(final String loggerName, final LogLevel logLevel, final String message) {
         this.uuid = UUID.randomUUID();
         this.message = message;
+        this.loggerName = loggerName;
         this.logLevel = logLevel;
         this.createdAt = Instant.now();
     }

@@ -1,7 +1,7 @@
 /**
  * VskLoggerSetup.java
  * Created on 05.10.2020
- * 
+ *
  * Copyright(c) 2020 Tobias Heller.
  * This software is the proprietary information of Tobias Heller.
 */
@@ -26,20 +26,20 @@ public class VskLoggerSetup implements LoggerSetup {
      */
     @Override
     public Logger createLogger(){
-        return new VskLogger(minimumLevel, serverIp);
+        return new VskLogger(this.minimumLevel, this.name, this.serverIp);
     }
 
     /**
      * Set minimum log level.
-     * @param logLevel The minimum level that will be logged.
+     * @param minLevel The configured minimum level that will be logged.
      */
-    public void setMinimumLevel(final LogLevel logLevel){
-        this.minimumLevel = logLevel;
+    public void setMinimumLevel(final LogLevel minLevel){
+        this.minimumLevel = minLevel;
     }
 
     /**
      * Set logger name to reference the application from where the logging occurs.
-     * @param name
+     * @param name The configured name of the logger.
      */
     public void setLoggerName(final String name){
         this.name = name;
@@ -47,7 +47,7 @@ public class VskLoggerSetup implements LoggerSetup {
 
     /**
      * Set serverIp address of the server the logs are getting sent.
-     * @param ip The serverIp address.
+     * @param ip The configured server IP address.
      */
     public void setLoggerServer(final InetAddress ip){
         this.serverIp = ip;
