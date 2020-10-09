@@ -128,9 +128,6 @@ public final class VskLogger implements Logger {
     }
 
     private boolean shouldBeSent(final LogLevel logLevel) {
-        if (logLevel.compareTo(minLevel) >= 0) {
-            return true;
-        }
-        return false;
+        return logLevel.compareTo(minLevel) >= 0;
     }
 }
