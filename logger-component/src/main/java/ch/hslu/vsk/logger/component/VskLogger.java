@@ -16,7 +16,7 @@ import java.net.InetAddress;
 /**
  * Code of Class VskLogger.
  *
- * @author Tobias Heller
+ * @author Tobias Heller, Silvan Wenk
  */
 public final class VskLogger implements Logger {
 

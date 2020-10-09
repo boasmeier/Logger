@@ -16,12 +16,15 @@ import java.util.UUID;
 /**
  * Code of Class LogMessage.
  *
- * @author Tobias Heller
+ * @author Tobias Heller, Silvan Wenk
  */
 public final class LogMessage implements Serializable {
-    
-    //With intention version 1
-    private static final long serialVersionUID = 1L;
+
+    /**
+     * Use american datetime format to indicate version.
+     */
+    private static final long serialVersionUID = 20201009L;
+
     private final UUID uuid;
     private final String message;
     private final String loggerName;

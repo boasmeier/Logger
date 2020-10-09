@@ -8,11 +8,13 @@
 package ch.hslu.vsk.logger.component;
 
 import ch.hslu.vsk.logger.api.*;
+
+import java.io.IOException;
 import java.net.InetAddress;
 
 /**
  * Code of Class VskLoggerSetup.
- * @author Tobias Heller
+ * @author Silvan Wenk
  */
 
 public class VskLoggerSetup implements LoggerSetup {
@@ -26,6 +28,13 @@ public class VskLoggerSetup implements LoggerSetup {
      */
     @Override
     public Logger createLogger(){
+        if (this.name == null || this.name.equals("")) {
+            throw new IllegalStateException("Cannot create a logger without a name.");
+        } else if (this.serverIp == null) {
+            throw new IllegalStateException("Cannot create a logger without a server IP Address.");
+        } else if (!this.ipAddressIsReachable(this.serverIp)) {
+            throw new IllegalStateException(String.format("IP address (%s) unreachable.", this.serverIp.getHostAddress()));
+        }
         return new VskLogger(this.minimumLevel, this.name, this.serverIp);
     }
 
@@ -51,5 +60,21 @@ public class VskLoggerSetup implements LoggerSetup {
      */
     public void setLoggerServer(final InetAddress ip){
         this.serverIp = ip;
+    }
+
+    /**
+     * Returns true if the given InetAddress is reachable with ICMP.
+     * @param address The given InetAddress.
+     * @return true or false
+     */
+    private boolean ipAddressIsReachable(InetAddress address) {
+        int returnVal = 0;
+        try {
+            Process p1 = java.lang.Runtime.getRuntime().exec(String.format("ping -n 1 %s", address.getHostName()));
+            returnVal= p1.waitFor();
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+        }
+        return (returnVal == 0);
     }
 }
