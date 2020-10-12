@@ -1,10 +1,10 @@
 /**
  * VskLoggerSetup.java
  * Created on 05.10.2020
- *
+ * <p>
  * Copyright(c) 2020 Tobias Heller.
  * This software is the proprietary information of Tobias Heller.
-*/
+ */
 package ch.hslu.vsk.logger.component;
 
 import ch.hslu.vsk.logger.api.*;
@@ -23,11 +23,12 @@ public class VskLoggerSetup implements LoggerSetup {
     private InetAddress serverIp;
 
     /**
-     * Creates VskLogger with current settings.
+     * Creates VskLogger with current settings. It's required to first set the name,
+     * the minimum log level and the server ip.
      * @return VskLogger instance
      */
     @Override
-    public Logger createLogger(){
+    public Logger createLogger() {
         if (this.name == null || this.name.equals("")) {
             throw new IllegalStateException("Cannot create a logger without a name.");
         } else if (this.serverIp == null) {
@@ -40,17 +41,18 @@ public class VskLoggerSetup implements LoggerSetup {
 
     /**
      * Set minimum log level.
-     * @param minLevel The configured minimum level that will be logged.
+     * @param minLevel The configured minimum level that will be logged. Lower levels than this won't be logged.
+     * e.g. if set to INFO: messages of type DEBUG and TRACE won't be logged.
      */
-    public void setMinimumLevel(final LogLevel minLevel){
+    public void setMinimumLevel(final LogLevel minLevel) {
         this.minimumLevel = minLevel;
     }
 
     /**
      * Set logger name to reference the application from where the logging occurs.
-     * @param name The configured name of the logger.
+     * @param name The name of the logger. This will be written to the logging server together with the log message.
      */
-    public void setLoggerName(final String name){
+    public void setLoggerName(final String name) {
         this.name = name;
     }
 
@@ -58,7 +60,7 @@ public class VskLoggerSetup implements LoggerSetup {
      * Set serverIp address of the server the logs are getting sent.
      * @param ip The configured server IP address.
      */
-    public void setLoggerServer(final InetAddress ip){
+    public void setLoggerServer(final InetAddress ip) {
         this.serverIp = ip;
     }
 
@@ -67,11 +69,11 @@ public class VskLoggerSetup implements LoggerSetup {
      * @param address The given InetAddress.
      * @return true or false
      */
-    private boolean ipAddressIsReachable(InetAddress address) {
+    protected boolean ipAddressIsReachable(InetAddress address) {
         int returnVal = 0;
         try {
             Process p1 = java.lang.Runtime.getRuntime().exec(String.format("ping -n 1 %s", address.getHostName()));
-            returnVal= p1.waitFor();
+            returnVal = p1.waitFor();
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }

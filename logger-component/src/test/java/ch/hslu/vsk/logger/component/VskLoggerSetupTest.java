@@ -1,7 +1,7 @@
 /**
  * VskLoggerSetup.java
  * Created on 05.10.2020
- *
+ * <p>
  * Copyright(c) 2020 Tobias Heller.
  * This software is the proprietary information of Tobias Heller.
  */
@@ -9,12 +9,12 @@ package ch.hslu.vsk.logger.component;
 
 import ch.hslu.vsk.logger.api.LogLevel;
 import ch.hslu.vsk.logger.api.LoggerSetup;
-import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 
 import java.net.InetAddress;
+import java.net.UnknownHostException;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  *
@@ -28,21 +28,51 @@ class VskLoggerSetupTest {
         setup.setLoggerServer(InetAddress.getLoopbackAddress());
         var loggerOne = setup.createLogger();
         var loggerTwo = setup.createLogger();
-        Assert.assertNotEquals(loggerOne, loggerTwo);
+        assertNotEquals(loggerOne, loggerTwo);
     }
 
     @Test
     void testCreateLoggerNoServerName() {
         var setup = new VskLoggerSetup();
         setup.setLoggerServer(InetAddress.getLoopbackAddress());
-        assertThrows(IllegalStateException.class, setup::createLogger);
+        var message = assertThrows(IllegalStateException.class, setup::createLogger)
+                .getMessage();
+        assertEquals("Cannot create a logger without a name.", message);
+
     }
 
     @Test
     void testCreateLoggerNoInetAddress() {
         var setup = new VskLoggerSetup();
         setup.setLoggerName("Test");
-        assertThrows(IllegalStateException.class, setup::createLogger);
+        var message = assertThrows(IllegalStateException.class, setup::createLogger)
+                .getMessage();
+        assertEquals("Cannot create a logger without a server IP Address.", message);
+    }
+
+    @Test
+    void testCreateLoggerInetAddressNotReachable() throws UnknownHostException {
+        var fakeAddress = "127.0.0.0";
+        var setup = new VskLoggerSetup();
+        setup.setLoggerName("Test");
+        setup.setLoggerServer(InetAddress.getByName(fakeAddress));
+        var message = assertThrows(IllegalStateException.class, setup::createLogger)
+                .getMessage();
+        assertEquals(String.format("IP address (%s) unreachable.", fakeAddress), message);
+    }
+
+    @Test
+    void testIpAddressIsReachable() {
+        var loopbackAddress = InetAddress.getLoopbackAddress();
+        var setup = new VskLoggerSetup();
+        assertTrue(setup.ipAddressIsReachable(loopbackAddress));
+    }
+
+    @Test
+    void testIpAddressIsReachableFalse() throws UnknownHostException {
+        var fakeAddress = InetAddress.getByName("127.0.0.0");
+        var setup = new VskLoggerSetup();
+        assertFalse(setup.ipAddressIsReachable(fakeAddress));
     }
 
     @Test
@@ -63,5 +93,5 @@ class VskLoggerSetupTest {
         final InetAddress inet = InetAddress.getLoopbackAddress();
         setup.setLoggerServer(inet);
     }
-    
+
 }
