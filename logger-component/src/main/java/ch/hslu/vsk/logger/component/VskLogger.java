@@ -24,8 +24,6 @@ public final class VskLogger implements Logger {
     private String name;
     private InetAddress serverIp;
 
-    private static VskLogger logger = null;
-
     protected VskLogger(final LogLevel minLevel, final String name, final InetAddress serverIp) {
         this.minLevel = minLevel;
         this.name = name;
@@ -103,7 +101,7 @@ public final class VskLogger implements Logger {
      */
     @Override
     public void error(final String message, final Exception exception) {
-        createMessage(minLevel, message, exception);
+        createMessage(LogLevel.ERROR, message, exception);
     }
 
     /**
