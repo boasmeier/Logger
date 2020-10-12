@@ -67,6 +67,9 @@ public final class LogMessage implements Serializable {
         return receivedAt;
     }
 
+    /**
+     * Should be called when server receives message.
+     */
     public void setReceived() {
         receivedAt = Instant.now();
     }
