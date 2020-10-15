@@ -7,10 +7,10 @@ package ch.hslu.vsk.logger.component;
 import ch.hslu.vsk.logger.api.LogLevel;
 import ch.hslu.vsk.logger.api.Logger;
 import ch.hslu.vsk.logger.api.LoggerSetup;
+import java.net.InetAddress;
+import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-
-import java.net.InetAddress;
 
 /**
  *
@@ -27,6 +27,7 @@ class VskLoggerTest {
         setup.setLoggerName("Test");
         setup.setMinimumLevel(LogLevel.DEBUG);
         setup.setLoggerServer(InetAddress.getLoopbackAddress());
+        assertThat(setup).isNotNull();
     }
 
     @Test

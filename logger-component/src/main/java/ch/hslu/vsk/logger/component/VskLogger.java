@@ -113,7 +113,9 @@ public final class VskLogger implements Logger {
      */
     @Override
     public void log(final LogLevel logLevel, final String message) {
-        createMessage(logLevel, message);
+        if (!logLevel.equals(LogLevel.OFF)) {
+            createMessage(logLevel, message);
+        }
     }
 
     private void createMessage(final LogLevel logLevel, final String message) {
