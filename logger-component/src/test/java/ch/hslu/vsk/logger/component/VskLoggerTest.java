@@ -9,8 +9,11 @@ import ch.hslu.vsk.logger.api.Logger;
 import ch.hslu.vsk.logger.api.LoggerSetup;
 import java.net.InetAddress;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.when;
+
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
 /**
  *
@@ -20,14 +23,17 @@ import org.junit.jupiter.api.Test;
 //TODO (hellerto): Verify Results
 class VskLoggerTest {
     private static LoggerSetup setup;
+    private static final NetworkService mockNetworkService = Mockito.mock(NetworkService.class);
+    private static final InetAddress inetAddress = InetAddress.getLoopbackAddress();
 
     @BeforeAll
     static void setupLogger() {
-        setup = new VskLoggerSetup();
+        setup = new VskLoggerSetup(mockNetworkService);
         setup.setLoggerName("Test");
         setup.setMinimumLevel(LogLevel.DEBUG);
         setup.setLoggerServer(InetAddress.getLoopbackAddress());
         assertThat(setup).isNotNull();
+        when(mockNetworkService.ipAddressIsReachable(inetAddress)).thenReturn(true);
     }
 
     @Test

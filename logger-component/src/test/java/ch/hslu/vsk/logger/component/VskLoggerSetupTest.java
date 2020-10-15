@@ -9,23 +9,35 @@ package ch.hslu.vsk.logger.component;
 
 import ch.hslu.vsk.logger.api.LogLevel;
 import ch.hslu.vsk.logger.api.LoggerSetup;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
 import java.net.InetAddress;
-import java.net.UnknownHostException;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.when;
 
 /**
  *
  * @author Silvan Wenk
  */
 class VskLoggerSetupTest {
+    private static LoggerSetup setup;
+    private static final NetworkService mockNetworkService = Mockito.mock(NetworkService.class);
+    private static final InetAddress inetAddress = InetAddress.getLoopbackAddress();
+
+    @BeforeAll
+    static void setup() {
+        when(mockNetworkService.ipAddressIsReachable(inetAddress)).thenReturn(true);
+    }
+
     @Test
     void testCreateLogger() {
-        var setup = new VskLoggerSetup();
+        setup = new VskLoggerSetup(mockNetworkService);
         setup.setLoggerName("Test");
-        setup.setLoggerServer(InetAddress.getLoopbackAddress());
+        setup.setLoggerServer(inetAddress);
         var loggerOne = setup.createLogger();
         var loggerTwo = setup.createLogger();
         assertNotEquals(loggerOne, loggerTwo);
@@ -33,7 +45,7 @@ class VskLoggerSetupTest {
 
     @Test
     void testCreateLoggerNoServerName() {
-        var setup = new VskLoggerSetup();
+        setup = new VskLoggerSetup(mockNetworkService);
         setup.setLoggerServer(InetAddress.getLoopbackAddress());
         var message = assertThrows(IllegalStateException.class, setup::createLogger)
                 .getMessage();
@@ -43,7 +55,7 @@ class VskLoggerSetupTest {
 
     @Test
     void testCreateLoggerNoInetAddress() {
-        var setup = new VskLoggerSetup();
+        setup = new VskLoggerSetup(mockNetworkService);
         setup.setLoggerName("Test");
         var message = assertThrows(IllegalStateException.class, setup::createLogger)
                 .getMessage();
@@ -51,45 +63,20 @@ class VskLoggerSetupTest {
     }
 
     @Test
-    void testCreateLoggerInetAddressNotReachable() throws UnknownHostException {
-        var fakeAddress = "127.0.0.0";
-        var setup = new VskLoggerSetup();
-        setup.setLoggerName("Test");
-        setup.setLoggerServer(InetAddress.getByName(fakeAddress));
-        var message = assertThrows(IllegalStateException.class, setup::createLogger)
-                .getMessage();
-        assertEquals(String.format("IP address (%s) unreachable.", fakeAddress), message);
-    }
-
-    @Test
-    void testIpAddressIsReachable() {
-        var loopbackAddress = InetAddress.getLoopbackAddress();
-        var setup = new VskLoggerSetup();
-        assertTrue(setup.ipAddressIsReachable(loopbackAddress));
-    }
-
-    @Test
-    void testIpAddressIsReachableFalse() throws UnknownHostException {
-        var fakeAddress = InetAddress.getByName("127.0.0.0");
-        var setup = new VskLoggerSetup();
-        assertFalse(setup.ipAddressIsReachable(fakeAddress));
-    }
-
-    @Test
     void testSetMinimumLevel() {
-        LoggerSetup setup = new VskLoggerSetup();
+        LoggerSetup setup = new VskLoggerSetup(mockNetworkService);
         setup.setMinimumLevel(LogLevel.ERROR);
     }
 
     @Test
     void testSetLoggerName() {
-        LoggerSetup setup = new VskLoggerSetup();
+        LoggerSetup setup = new VskLoggerSetup(mockNetworkService);
         setup.setLoggerName("Test");
     }
 
     @Test
     void testSetLoggerServer() {
-        LoggerSetup setup = new VskLoggerSetup();
+        LoggerSetup setup = new VskLoggerSetup(mockNetworkService);
         final InetAddress inet = InetAddress.getLoopbackAddress();
         setup.setLoggerServer(inet);
     }
