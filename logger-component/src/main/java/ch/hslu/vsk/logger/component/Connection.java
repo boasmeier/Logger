@@ -36,11 +36,11 @@ public class Connection {
         this.messageQueue = new ArrayBlockingQueue<>(30);
         try {
             this.socket = new Socket(serverAddress, portNumber);
+            this.messageHandler = new MessageHandler(this.socket, this.messageQueue);
+            new Thread(this.messageHandler).start();
         } catch (IOException ex) {
             LOG.severe("IOException: " + ex.getLocalizedMessage());
         }
-        this.messageHandler = new MessageHandler(this.socket, this.messageQueue);
-        new Thread(this.messageHandler).start();
     }
 
     /**

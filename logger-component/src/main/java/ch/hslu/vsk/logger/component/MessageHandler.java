@@ -23,17 +23,17 @@ public class MessageHandler implements Runnable {
 
     private static final Logger LOG = Logger.getLogger(MessageHandler.class.getName());
 
-    private Socket socket;
-    private BlockingQueue<LogMessage> queue;
+    private final Socket socket;
+    private final BlockingQueue<LogMessage> messageQueue;
 
     /**
      * Konstruktor der Klasse Message Handler.
      * @param socket Socket über welchen die Kommunikation zum Server gehen soll.
      * @param queue BlockingQueue, welche die zu sendenden Messages enthält.
      */
-    public MessageHandler(Socket socket, BlockingQueue<LogMessage> queue) {
+    public MessageHandler(final Socket socket, final BlockingQueue<LogMessage> queue) {
         this.socket = socket;
-        this.queue = queue;
+        this.messageQueue = queue;
     }
 
     @Override
@@ -41,7 +41,7 @@ public class MessageHandler implements Runnable {
         try {
             ObjectOutputStream ous = new ObjectOutputStream(socket.getOutputStream());
             while (true) {
-                LogMessage message = queue.take();
+                LogMessage message = messageQueue.take();
                 LOG.info("Send: " + message);
                 ous.writeObject(message);
             }
