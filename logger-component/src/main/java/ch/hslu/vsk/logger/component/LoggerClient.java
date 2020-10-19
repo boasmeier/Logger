@@ -12,7 +12,7 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 
 /**
- * Code of Class LoggerClient.
+ * Klasse zum autonomen testen der Logger Verbindung.
  * @author Tobias Heller
  */
 public class LoggerClient {

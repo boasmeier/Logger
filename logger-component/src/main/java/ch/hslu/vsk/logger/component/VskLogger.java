@@ -23,13 +23,13 @@ public final class VskLogger implements Logger {
     private LogLevel minLevel;
     private String name;
     private InetAddress serverIp;
-    private MessageHandler messageHandler;
+    private Connection serverConnection;
 
     protected VskLogger(final LogLevel minLevel, final String name, final InetAddress serverIp) {
         this.minLevel = minLevel;
         this.name = name;
         this.serverIp = serverIp;
-        this.messageHandler = new MessageHandler(serverIp);
+        this.serverConnection = new Connection(serverIp);
     }
 
     /**
@@ -123,7 +123,7 @@ public final class VskLogger implements Logger {
     private void createMessage(final LogLevel logLevel, final String message) {
         if (shouldBeSent(logLevel)) {
             LogMessage msg = new LogMessage(this.name, logLevel, message);
-            messageHandler.send(msg);
+            serverConnection.send(msg);
         }
     }
 

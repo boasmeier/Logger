@@ -8,8 +8,9 @@
 package ch.hslu.vsk.logger.component;
 
 import ch.hslu.vsk.logger.common.LogMessage;
-import java.net.InetAddress;
-import java.util.concurrent.ArrayBlockingQueue;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
 import java.util.concurrent.BlockingQueue;
 import java.util.logging.Logger;
 
@@ -18,22 +19,36 @@ import java.util.logging.Logger;
  *
  * @author Tobias Heller
  */
-public class MessageHandler {
-    private static final Logger LOG = Logger.getLogger(MessageClient.class.getName());
+public class MessageHandler implements Runnable {
 
-    private InetAddress serverAddress;
-    private MessageClient messageClient;
-    private final BlockingQueue<LogMessage> messageQueue;
+    private static final Logger LOG = Logger.getLogger(MessageHandler.class.getName());
 
-    public MessageHandler(final InetAddress serverAddress) {
-        this.messageQueue = new ArrayBlockingQueue<LogMessage>(30);
-        this.serverAddress = serverAddress;
-        this.messageClient = new MessageClient(this.serverAddress, this.messageQueue);
-        new Thread(this.messageClient).start();
+    private Socket socket;
+    private BlockingQueue<LogMessage> queue;
+
+    /**
+     * Konstruktor der Klasse Message Handler.
+     * @param socket Socket über welchen die Kommunikation zum Server gehen soll.
+     * @param queue BlockingQueue, welche die zu sendenden Messages enthält.
+     */
+    public MessageHandler(Socket socket, BlockingQueue<LogMessage> queue) {
+        this.socket = socket;
+        this.queue = queue;
     }
 
-    public boolean send(final LogMessage message) {
-        LOG.info("MessageHandler send: " + message);
-        return messageQueue.offer(message);
+    @Override
+    public void run() {
+        try {
+            ObjectOutputStream ous = new ObjectOutputStream(socket.getOutputStream());
+            while (true) {
+                LogMessage message = queue.take();
+                LOG.info("Send: " + message);
+                ous.writeObject(message);
+            }
+        } catch (IOException ex) {
+            LOG.severe("IOException: " + ex.getLocalizedMessage());
+        } catch (InterruptedException ex) {
+            LOG.severe("InterruptedException: " + ex.getLocalizedMessage());
+        }
     }
 }
