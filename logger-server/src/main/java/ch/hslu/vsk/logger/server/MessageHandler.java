@@ -25,8 +25,11 @@ public class MessageHandler implements Runnable {
     public void run() {
         try (InputStream in = client.getInputStream();
                 ObjectInputStream ois = new ObjectInputStream(in)) {
-            final LogMessage message = (LogMessage) ois.readObject();
-            LOGGER.info(message.toString());
+            while(true) {
+                final LogMessage message = (LogMessage) ois.readObject();
+                LOGGER.info(message.toString());
+            }
+            //TODO:
         } catch (IOException | ClassNotFoundException ex) {
             LOGGER.severe(ex.getMessage());
             ex.printStackTrace();
