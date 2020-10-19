@@ -22,7 +22,10 @@ public class VskLoggerSetup implements LoggerSetup {
     private InetAddress serverIp;
     private NetworkService networkService;
 
-    public VskLoggerSetup(NetworkService networkService) {
+    public VskLoggerSetup() {
+    }
+
+    protected VskLoggerSetup(NetworkService networkService) {
         this.networkService = networkService;
     }
 
