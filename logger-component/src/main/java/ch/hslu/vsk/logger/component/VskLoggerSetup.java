@@ -8,7 +8,6 @@
 package ch.hslu.vsk.logger.component;
 
 import ch.hslu.vsk.logger.api.*;
-
 import java.net.InetAddress;
 
 /**
@@ -22,6 +21,10 @@ public class VskLoggerSetup implements LoggerSetup {
     private InetAddress serverIp;
     private NetworkService networkService;
 
+    public VskLoggerSetup() {
+        this(new NetworkService());
+    }
+    
     public VskLoggerSetup(NetworkService networkService) {
         this.networkService = networkService;
     }

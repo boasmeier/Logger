@@ -23,11 +23,13 @@ public final class VskLogger implements Logger {
     private LogLevel minLevel;
     private String name;
     private InetAddress serverIp;
+    private MessageHandler messageHandler;
 
     protected VskLogger(final LogLevel minLevel, final String name, final InetAddress serverIp) {
         this.minLevel = minLevel;
         this.name = name;
         this.serverIp = serverIp;
+        this.messageHandler = new MessageHandler(serverIp);
     }
 
     /**
@@ -121,7 +123,7 @@ public final class VskLogger implements Logger {
     private void createMessage(final LogLevel logLevel, final String message) {
         if (shouldBeSent(logLevel)) {
             LogMessage msg = new LogMessage(this.name, logLevel, message);
-            //TODO hellerto: Send to Server etc.
+            messageHandler.send(msg);
         }
     }
 
