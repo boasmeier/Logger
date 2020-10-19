@@ -23,7 +23,7 @@ import java.util.logging.Logger;
 public class Connection {
 
     private static final Logger LOG = Logger.getLogger(Connection.class.getName());
-    private MessageHandler messageClient;
+    private MessageHandler messageHandler;
     private Socket socket;
     private final int portNumber = 5050;
     private final BlockingQueue<LogMessage> messageQueue;
@@ -35,7 +35,8 @@ public class Connection {
         } catch (IOException ex) {
             LOG.severe("IOException: " + ex.getLocalizedMessage());
         }
-        this.messageClient = new MessageHandler(this.socket, this.messageQueue);
+        this.messageHandler = new MessageHandler(this.socket, this.messageQueue);
+        new Thread(this.messageHandler).start();
     }
 
     public boolean send(final LogMessage message) {
