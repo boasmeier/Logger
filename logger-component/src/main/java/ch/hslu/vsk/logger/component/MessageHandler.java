@@ -29,6 +29,7 @@ public class MessageHandler {
         this.messageQueue = new ArrayBlockingQueue<LogMessage>(30);
         this.serverAddress = serverAddress;
         this.messageClient = new MessageClient(this.serverAddress, this.messageQueue);
+        new Thread(this.messageClient).start();
     }
 
     public boolean send(final LogMessage message) {

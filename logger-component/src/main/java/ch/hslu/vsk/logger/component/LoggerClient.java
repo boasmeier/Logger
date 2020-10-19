@@ -19,7 +19,7 @@ public class LoggerClient {
     public static void main(String[] args) throws UnknownHostException{
         VskLoggerSetup setup = new VskLoggerSetup();
         setup.setLoggerName("Hallo");
-        setup.setLoggerServer(InetAddress.getByName("10.155.224.95"));
+        setup.setLoggerServer(InetAddress.getByName("127.0.0.1"));
         Logger logger = setup.createLogger();
         logger.info("Hallo Silvan");
     }
