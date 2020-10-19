@@ -1,3 +1,10 @@
+/*
+ * LoggerServer.java
+ * Created on 19.10.2020
+ * 
+ * Copyright(c) 2020 Silvan Wenk.
+ * This software is the proprietary information of Tobias Heller.
+*/
 package ch.hslu.vsk.logger.server;
 
 import java.io.IOException;

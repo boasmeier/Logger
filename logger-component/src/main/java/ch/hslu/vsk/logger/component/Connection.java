@@ -27,7 +27,11 @@ public class Connection {
     private Socket socket;
     private final int portNumber = 5050;
     private final BlockingQueue<LogMessage> messageQueue;
-
+    
+    /**
+     * Creates a new Connection to the Logger-Server.
+     * @param serverAddress IP-Address of Server.
+     */
     public Connection(final InetAddress serverAddress) {
         this.messageQueue = new ArrayBlockingQueue<>(30);
         try {
@@ -39,6 +43,11 @@ public class Connection {
         new Thread(this.messageHandler).start();
     }
 
+    /**
+     * Adds a LogMessage to the Buffer. 
+     * @param message LogMessage to send.
+     * @return Returns whether it was successful or not.
+     */
     public boolean send(final LogMessage message) {
         LOG.info("Send: " + message);
         return messageQueue.offer(message);
