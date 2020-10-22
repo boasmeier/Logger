@@ -28,8 +28,9 @@ public class MessageHandler implements Runnable {
             while(true) {
                 final LogMessage message = (LogMessage) ois.readObject();
                 LOGGER.info(message.toString());
+                final var persistor = new StringPersistorAdapter();
+                persistor.save(message);
             }
-            //TODO:
         } catch (IOException | ClassNotFoundException ex) {
             LOGGER.severe(ex.getMessage());
             ex.printStackTrace();
