@@ -1,15 +1,40 @@
+/*
+ * StringPersistorAdapter.java
+ * Created on 22.10.2020
+ * 
+ * Copyright(c) 2020 Tobias Heller.
+ * This software is the proprietary information of Tobias Heller.
+ */
 package ch.hslu.vsk.logger.server;
 
 import ch.hslu.vsk.logger.common.LogMessage;
+import ch.hslu.vsk.stringpersistor.api.StringPersistor;
 import ch.hslu.vsk.stringpersistor.impl.StringPersistorFile;
-
+import java.io.File;
 import java.time.Instant;
 
-public class StringPersistorAdapter implements LogPersistor {
+/**
+ * Code of Class StringPersistorAdapter.
+ *
+ * @author Tobias Heller
+ */
+public final class StringPersistorAdapter implements LogPersistor {
+    
+    private StringPersistor persistor;
+    
+    public StringPersistorAdapter() {
+        StringPersistor persistor = new StringPersistorFile();
+    }
+
+    /**
+     * Store a message to the StringPersistor.
+     *
+     * @param message LogMessage Object to store.
+     */
     @Override
-    public void save(LogMessage message) {
-        final StringPersistorFile stringPersistorFile = new StringPersistorFile();
-        //TODO: Instead of message.toString(), do more sophisticated adaptation.
-        stringPersistorFile.save(Instant.now(), message.toString());
+    public final void save(final LogMessage message) {
+        //TODO (Thomas Goldenberger): Decide in which File to store -> Does it have to be here?
+        persistor.setFile(new File("test.txt"));
+        persistor.save(Instant.now(), message.toString());
     }
 }
