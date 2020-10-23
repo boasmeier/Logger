@@ -22,14 +22,12 @@ public final class VskLogger implements Logger {
 
     private LogLevel minLevel;
     private String name;
-    private InetAddress serverIp;
     private Connection serverConnection;
 
-    protected VskLogger(final LogLevel minLevel, final String name, final InetAddress serverIp) {
+    protected VskLogger(final LogLevel minLevel, final String name, final Connection conn) {
         this.minLevel = minLevel;
         this.name = name;
-        this.serverIp = serverIp;
-        this.serverConnection = new Connection(serverIp);
+        this.serverConnection = conn;
     }
 
     /**
@@ -91,7 +89,7 @@ public final class VskLogger implements Logger {
      * @param message Message to send.
      */
     @Override
-    public void fatal(final String message, final Exception exception) {
+    public void fatal(final String message, final Throwable exception) {
         createMessage(LogLevel.FATAL, message, exception);
     }
 
@@ -102,7 +100,7 @@ public final class VskLogger implements Logger {
      * @param message Message to send.
      */
     @Override
-    public void error(final String message, final Exception exception) {
+    public void error(final String message, final Throwable exception) {
         createMessage(LogLevel.ERROR, message, exception);
     }
 
@@ -127,7 +125,7 @@ public final class VskLogger implements Logger {
         }
     }
 
-    private void createMessage(final LogLevel logLevel, final String content, final Exception ex) {
+    private void createMessage(final LogLevel logLevel, final String content, final Throwable ex) {
         createMessage(logLevel, MessageHelper.ExceptionMessageToString(content, ex));
     }
 

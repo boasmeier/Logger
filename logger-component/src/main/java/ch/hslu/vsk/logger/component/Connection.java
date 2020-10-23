@@ -23,23 +23,21 @@ import java.util.logging.Logger;
 public class Connection {
 
     private static final Logger LOG = Logger.getLogger(Connection.class.getName());
-    private MessageHandler messageHandler;
-    private Socket socket;
-    private final int portNumber = 5050;
     private final BlockingQueue<LogMessage> messageQueue;
     
     /**
      * Creates a new Connection to the Logger-Server.
-     * @param serverAddress IP-Address of Server.
+     * @param host IP-Address of Server.
+     * @param port Port-Address of Server application.
      */
-    public Connection(final InetAddress serverAddress) {
+    public Connection(final String host, final int port) {
         this.messageQueue = new ArrayBlockingQueue<>(30);
         try {
-            this.socket = new Socket(serverAddress, portNumber);
-            this.messageHandler = new MessageHandler(this.socket, this.messageQueue);
-            new Thread(this.messageHandler).start();
+            var socket = new Socket(host, port);
+            var messageHandler = new MessageHandler(socket, this.messageQueue);
+            new Thread(messageHandler).start();
         } catch (IOException ex) {
-            LOG.severe("IOException: " + ex.getLocalizedMessage());
+            LOG.severe(String.format("IOException (Socket %s:%s): %s", host, port, ex.getLocalizedMessage()));
         }
     }
 

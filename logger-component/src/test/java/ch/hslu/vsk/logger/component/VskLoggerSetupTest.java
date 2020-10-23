@@ -9,14 +9,12 @@ package ch.hslu.vsk.logger.component;
 
 import ch.hslu.vsk.logger.api.LogLevel;
 import ch.hslu.vsk.logger.api.LoggerSetup;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 
 import java.net.InetAddress;
+import java.net.UnknownHostException;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.when;
 
 /**
  *
@@ -24,28 +22,23 @@ import static org.mockito.Mockito.when;
  */
 class VskLoggerSetupTest {
     private static LoggerSetup setup;
-    private static final NetworkService mockNetworkService = Mockito.mock(NetworkService.class);
-    private static final InetAddress inetAddress = InetAddress.getLoopbackAddress();
-
-    @BeforeAll
-    static void setup() {
-        when(mockNetworkService.ipAddressIsReachable(inetAddress)).thenReturn(true);
-    }
+    private static final String HOST = "127.0.0.1";
+    private static final int PORT = 5050;
 
     @Test
-    void testCreateLogger() {
-        setup = new VskLoggerSetup(mockNetworkService);
+    void testCreateLogger() throws UnknownHostException {
+        setup = new VskLoggerSetup();
         setup.setLoggerName("Test");
-        setup.setLoggerServer(inetAddress);
+        setup.setLoggerServer(HOST, PORT);
         var loggerOne = setup.createLogger();
         var loggerTwo = setup.createLogger();
         assertNotEquals(loggerOne, loggerTwo);
     }
 
     @Test
-    void testCreateLoggerNoServerName() {
-        setup = new VskLoggerSetup(mockNetworkService);
-        setup.setLoggerServer(InetAddress.getLoopbackAddress());
+    void testCreateLoggerNoServerName() throws UnknownHostException {
+        setup = new VskLoggerSetup();
+        setup.setLoggerServer(HOST, PORT);
         var message = assertThrows(IllegalStateException.class, setup::createLogger)
                 .getMessage();
         assertEquals("Cannot create a logger without a name.", message);
@@ -53,31 +46,31 @@ class VskLoggerSetupTest {
     }
 
     @Test
-    void testCreateLoggerNoInetAddress() {
-        setup = new VskLoggerSetup(mockNetworkService);
+    void testCreateLoggerNoServerConnection() {
+        setup = new VskLoggerSetup();
         setup.setLoggerName("Test");
         var message = assertThrows(IllegalStateException.class, setup::createLogger)
                 .getMessage();
-        assertEquals("Cannot create a logger without a server IP Address.", message);
+        assertEquals("Cannot create a logger without a server connection.", message);
     }
 
     @Test
     void testSetMinimumLevel() {
-        LoggerSetup setup = new VskLoggerSetup(mockNetworkService);
+        LoggerSetup setup = new VskLoggerSetup();
         setup.setMinimumLevel(LogLevel.ERROR);
     }
 
     @Test
     void testSetLoggerName() {
-        LoggerSetup setup = new VskLoggerSetup(mockNetworkService);
+        LoggerSetup setup = new VskLoggerSetup();
         setup.setLoggerName("Test");
     }
 
     @Test
-    void testSetLoggerServer() {
-        LoggerSetup setup = new VskLoggerSetup(mockNetworkService);
+    void testSetLoggerServer() throws UnknownHostException {
+        LoggerSetup setup = new VskLoggerSetup();
         final InetAddress inet = InetAddress.getLoopbackAddress();
-        setup.setLoggerServer(inet);
+        setup.setLoggerServer(HOST, PORT);
     }
 
 }

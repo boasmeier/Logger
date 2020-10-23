@@ -16,10 +16,14 @@ import java.net.UnknownHostException;
  * @author Tobias Heller
  */
 public class LoggerClient {
+    private static final String HOST = "127.0.0.1";
+    private static final int PORT = 5050;
+
     public static void main(String[] args) throws UnknownHostException{
+
         VskLoggerSetup setup = new VskLoggerSetup();
         setup.setLoggerName("Hallo");
-        setup.setLoggerServer(InetAddress.getByName("127.0.0.1"));
+        setup.setLoggerServer(HOST, PORT);
         Logger logger = setup.createLogger();
         logger.info("Hallo Silvan");
     }

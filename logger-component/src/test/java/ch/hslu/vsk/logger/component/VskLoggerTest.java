@@ -8,6 +8,8 @@ import ch.hslu.vsk.logger.api.LogLevel;
 import ch.hslu.vsk.logger.api.Logger;
 import ch.hslu.vsk.logger.api.LoggerSetup;
 import java.net.InetAddress;
+import java.net.UnknownHostException;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
@@ -23,17 +25,16 @@ import org.mockito.Mockito;
 //TODO (hellerto): Verify Results
 class VskLoggerTest {
     private static LoggerSetup setup;
-    private static final NetworkService mockNetworkService = Mockito.mock(NetworkService.class);
-    private static final InetAddress inetAddress = InetAddress.getLoopbackAddress();
+    private static final String HOST = "127.0.0.1";
+    private static final int PORT = 5050;
 
     @BeforeAll
-    static void setupLogger() {
-        setup = new VskLoggerSetup(mockNetworkService);
+    static void setupLogger() throws UnknownHostException {
+        setup = new VskLoggerSetup();
         setup.setLoggerName("Test");
         setup.setMinimumLevel(LogLevel.DEBUG);
-        setup.setLoggerServer(InetAddress.getLoopbackAddress());
+        setup.setLoggerServer(HOST, PORT);
         assertThat(setup).isNotNull();
-        when(mockNetworkService.ipAddressIsReachable(inetAddress)).thenReturn(true);
     }
 
     @Test

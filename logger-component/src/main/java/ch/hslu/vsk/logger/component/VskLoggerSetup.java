@@ -7,7 +7,7 @@
 package ch.hslu.vsk.logger.component;
 
 import ch.hslu.vsk.logger.api.*;
-import java.net.InetAddress;
+import java.net.UnknownHostException;
 
 /**
  * Code of Class VskLoggerSetup.
@@ -18,16 +18,11 @@ public class VskLoggerSetup implements LoggerSetup {
 
     private LogLevel minimumLevel = LogLevel.INFO;
     private String name;
-    private InetAddress serverIp;
-    private NetworkService networkService;
+    private Connection serverConnection;
 
     public VskLoggerSetup() {
-        this(new NetworkService());
     }
 
-    public VskLoggerSetup(NetworkService networkService) {
-        this.networkService = networkService;
-    }
 
     /**
      * Creates VskLogger with current settings. It's required to first set the name, the minimum log level and the
@@ -39,12 +34,10 @@ public class VskLoggerSetup implements LoggerSetup {
     public Logger createLogger() {
         if (this.name == null || this.name.equals("")) {
             throw new IllegalStateException("Cannot create a logger without a name.");
-        } else if (this.serverIp == null) {
-            throw new IllegalStateException("Cannot create a logger without a server IP Address.");
-        } else if (!this.networkService.ipAddressIsReachable(this.serverIp)) {
-            throw new IllegalStateException(String.format("IP address (%s) unreachable.", this.serverIp.getHostAddress()));
+        } else if (this.serverConnection == null) {
+            throw new IllegalStateException("Cannot create a logger without a server connection.");
         }
-        return new VskLogger(this.minimumLevel, this.name, this.serverIp);
+        return new VskLogger(this.minimumLevel, this.name, this.serverConnection);
     }
 
     /**
@@ -69,9 +62,11 @@ public class VskLoggerSetup implements LoggerSetup {
     /**
      * Set serverIp address of the server the logs are getting sent.
      *
-     * @param ip The configured server IP address.
+     * @param host The configured server IP address or hostname.
+     * @param port The port number on which the connection to the server should be made.
      */
-    public void setLoggerServer(final InetAddress ip) {
-        this.serverIp = ip;
+    @Override
+    public void setLoggerServer(String host, int port) throws UnknownHostException {
+        this.serverConnection = new Connection(host, port);
     }
 }
