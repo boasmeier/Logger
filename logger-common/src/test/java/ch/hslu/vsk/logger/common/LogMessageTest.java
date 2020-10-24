@@ -94,4 +94,11 @@ public class LogMessageTest {
         }
         assertThat(m1.equals(m2)).isTrue();
     }
+    
+    @Test
+    public void testGetLoggerName() {
+        String content = "This is a message";
+        LogMessage m = new LogMessage("Logger01", LogLevel.INFO, content);
+        assertThat(m.getLoggerName()).isEqualTo("Logger01");
+    }
 }

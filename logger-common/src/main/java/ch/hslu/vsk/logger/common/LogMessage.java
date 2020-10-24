@@ -66,6 +66,10 @@ public final class LogMessage implements Serializable {
     public Instant getReceivedAt() {
         return receivedAt;
     }
+    
+    public String getLoggerName() {
+        return loggerName;
+    }
 
     /**
      * Should be called when server receives message.
