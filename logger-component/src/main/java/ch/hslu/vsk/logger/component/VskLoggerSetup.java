@@ -16,7 +16,7 @@ public class VskLoggerSetup implements LoggerSetup {
     private String ipAddress;
     private int port = 0;
 
-    VskLoggerSetup() {
+    public VskLoggerSetup() {
     }
 
 
