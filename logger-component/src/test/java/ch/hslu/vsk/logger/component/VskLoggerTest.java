@@ -7,40 +7,35 @@ package ch.hslu.vsk.logger.component;
 import ch.hslu.vsk.logger.api.LogLevel;
 import ch.hslu.vsk.logger.api.Logger;
 import ch.hslu.vsk.logger.api.LoggerSetup;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.when;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 
-/**
- *
- * @author Tobias Heller
- */
-
-//TODO (hellerto): Verify Results
 class VskLoggerTest {
     private static LoggerSetup setup;
     private static final String HOST = "127.0.0.1";
     private static final int PORT = 5050;
 
     @BeforeAll
-    static void setupLogger() throws UnknownHostException {
+    static void setupLogger() {
         setup = new VskLoggerSetup();
         setup.setLoggerName("Test");
         setup.setMinimumLevel(LogLevel.DEBUG);
-        setup.setLoggerServer(HOST, PORT);
+        setup.setServerIP(HOST);
+        setup.setServerPort(PORT);
         assertThat(setup).isNotNull();
     }
 
     @Test
     void testSetMinimumLevel() {
         Logger logger = setup.createLogger();
-        logger.setMinimumLevel(LogLevel.WARN);
+        var expected = LogLevel.WARN;
+        logger.setMinimumLevel(expected);
+        var actual = logger.getMinimumLevel();
+        assertEquals(expected, actual);
     }
 
     @Test
@@ -77,11 +72,5 @@ class VskLoggerTest {
     void testError() {
         Logger logger = setup.createLogger();
         logger.error("A Error Message", new Exception("Oh no an exception"));
-    }
-
-    @Test
-    void testLog() {
-        Logger logger = setup.createLogger();
-        logger.log(LogLevel.DEBUG, "A Debug Message");
     }
 }

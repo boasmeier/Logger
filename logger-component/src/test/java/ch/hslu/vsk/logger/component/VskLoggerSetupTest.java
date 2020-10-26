@@ -11,66 +11,109 @@ import ch.hslu.vsk.logger.api.LogLevel;
 import ch.hslu.vsk.logger.api.LoggerSetup;
 import org.junit.jupiter.api.Test;
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-
 import static org.junit.jupiter.api.Assertions.*;
 
-/**
- *
- * @author Silvan Wenk
- */
 class VskLoggerSetupTest {
     private static LoggerSetup setup;
     private static final String HOST = "127.0.0.1";
     private static final int PORT = 5050;
 
     @Test
-    void testCreateLogger() throws UnknownHostException {
+    void testCreateLogger() {
         setup = new VskLoggerSetup();
         setup.setLoggerName("Test");
-        setup.setLoggerServer(HOST, PORT);
+        setup.setServerIP(HOST);
+        setup.setServerPort(PORT);
         var loggerOne = setup.createLogger();
         var loggerTwo = setup.createLogger();
         assertNotEquals(loggerOne, loggerTwo);
     }
 
     @Test
-    void testCreateLoggerNoServerName() throws UnknownHostException {
+    void testCreateLoggerNoServerName() {
         setup = new VskLoggerSetup();
-        setup.setLoggerServer(HOST, PORT);
+        setup.setServerIP(HOST);
+        setup.setServerPort(PORT);
         var message = assertThrows(IllegalStateException.class, setup::createLogger)
                 .getMessage();
         assertEquals("Cannot create a logger without a name.", message);
-
     }
 
     @Test
-    void testCreateLoggerNoServerConnection() {
+    void testCreateLoggerNoIpAddress() {
         setup = new VskLoggerSetup();
         setup.setLoggerName("Test");
+        setup.setServerPort(PORT);
         var message = assertThrows(IllegalStateException.class, setup::createLogger)
                 .getMessage();
-        assertEquals("Cannot create a logger without a server connection.", message);
+        assertEquals("Cannot create a logger without a server ip address.", message);
+    }
+
+    @Test
+    void testCreateLoggerNoPortNumber() {
+        setup = new VskLoggerSetup();
+        setup.setLoggerName("Test");
+        setup.setServerIP(HOST);
+        var message = assertThrows(IllegalStateException.class, setup::createLogger)
+                .getMessage();
+        assertEquals("Cannot create a logger with an invalid port number.", message);
+    }
+
+    @Test
+    void testCreateLoggerPortNumberOutOfRange() {
+        setup = new VskLoggerSetup();
+        setup.setLoggerName("Test");
+        setup.setServerIP(HOST);
+        setup.setServerPort(Integer.MAX_VALUE);
+        var message = assertThrows(IllegalStateException.class, setup::createLogger)
+                .getMessage();
+        assertEquals("Cannot create a logger with an invalid port number.", message);
+    }
+
+    @Test
+    void testCreateLoggerPortNumberNegative() {
+        setup = new VskLoggerSetup();
+        setup.setLoggerName("Test");
+        setup.setServerIP(HOST);
+        setup.setServerPort(-1);
+        var message = assertThrows(IllegalStateException.class, setup::createLogger)
+                .getMessage();
+        assertEquals("Cannot create a logger with an invalid port number.", message);
     }
 
     @Test
     void testSetMinimumLevel() {
-        LoggerSetup setup = new VskLoggerSetup();
-        setup.setMinimumLevel(LogLevel.ERROR);
+        setup = new VskLoggerSetup();
+        var expected = LogLevel.WARN;
+        setup.setMinimumLevel(expected);
+        var actual = setup.getMinimumLevel();
+        assertEquals(expected, actual);
     }
 
     @Test
     void testSetLoggerName() {
-        LoggerSetup setup = new VskLoggerSetup();
-        setup.setLoggerName("Test");
+        setup = new VskLoggerSetup();
+        var expected = "Test";
+        setup.setLoggerName(expected);
+        var actual = setup.getLoggerName();
+        assertEquals(expected, actual);
     }
 
     @Test
-    void testSetLoggerServer() throws UnknownHostException {
-        LoggerSetup setup = new VskLoggerSetup();
-        final InetAddress inet = InetAddress.getLoopbackAddress();
-        setup.setLoggerServer(HOST, PORT);
+    void testSetLoggerIpAddress() {
+        setup = new VskLoggerSetup();
+        var expected = HOST;
+        setup.setServerIP(expected);
+        var actual = setup.getServerIP();
+        assertEquals(expected, actual);
     }
 
+    @Test
+    void testSetLoggerPort() {
+        setup = new VskLoggerSetup();
+        var expected = PORT;
+        setup.setServerPort(expected);
+        var actual = setup.getServerPort();
+        assertEquals(expected, actual);
+    }
 }

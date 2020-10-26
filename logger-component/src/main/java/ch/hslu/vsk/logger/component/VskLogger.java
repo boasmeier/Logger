@@ -24,7 +24,7 @@ public final class VskLogger implements Logger {
     private String name;
     private Connection serverConnection;
 
-    protected VskLogger(final LogLevel minLevel, final String name, final Connection conn) {
+    VskLogger(final LogLevel minLevel, final String name, final Connection conn) {
         this.minLevel = minLevel;
         this.name = name;
         this.serverConnection = conn;
@@ -38,6 +38,15 @@ public final class VskLogger implements Logger {
     @Override
     public void setMinimumLevel(final LogLevel minLevel) {
         this.minLevel = minLevel;
+    }
+
+    /**
+     * Gets the minimum log level of Messages sent.
+     * @return
+     */
+    @Override
+    public LogLevel getMinimumLevel() {
+        return this.minLevel;
     }
 
     /**
@@ -102,20 +111,6 @@ public final class VskLogger implements Logger {
     @Override
     public void error(final String message, final Throwable exception) {
         createMessage(LogLevel.ERROR, message, exception);
-    }
-
-    /**
-     * Sends a Message of logLevel if minLevel is equal or lower than provided
-     * logLevel.
-     *
-     * @param logLevel LogLevel of Message to be sent.
-     * @param message Message to send.
-     */
-    @Override
-    public void log(final LogLevel logLevel, final String message) {
-        if (!logLevel.equals(LogLevel.OFF)) {
-            createMessage(logLevel, message);
-        }
     }
 
     private void createMessage(final LogLevel logLevel, final String message) {

@@ -22,9 +22,10 @@ public class LoggerClient {
     public static void main(String[] args) throws UnknownHostException{
 
         VskLoggerSetup setup = new VskLoggerSetup();
-        setup.setLoggerName("Hallo");
-        setup.setLoggerServer(HOST, PORT);
+        setup.setLoggerName("TEST");
+        setup.setServerIP(HOST);
+        setup.setServerPort(PORT);
         Logger logger = setup.createLogger();
-        logger.info("Hallo Silvan");
+        logger.info("Hello World");
     }
 }

@@ -9,24 +9,20 @@ package ch.hslu.vsk.logger.component;
 import ch.hslu.vsk.logger.api.*;
 import java.net.UnknownHostException;
 
-/**
- * Code of Class VskLoggerSetup.
- *
- * @author Silvan Wenk
- */
 public class VskLoggerSetup implements LoggerSetup {
 
     private LogLevel minimumLevel = LogLevel.INFO;
     private String name;
-    private Connection serverConnection;
+    private String ipAddress;
+    private int port = 0;
 
-    public VskLoggerSetup() {
+    VskLoggerSetup() {
     }
 
 
     /**
-     * Creates VskLogger with current settings. It's required to first set the name, the minimum log level and the
-     * server ip.
+     * Creates VskLogger with current settings. It's required to first set the name, the minimum log level, the
+     * server ip and port number.
      *
      * @return VskLogger instance
      */
@@ -34,20 +30,28 @@ public class VskLoggerSetup implements LoggerSetup {
     public Logger createLogger() {
         if (this.name == null || this.name.equals("")) {
             throw new IllegalStateException("Cannot create a logger without a name.");
-        } else if (this.serverConnection == null) {
-            throw new IllegalStateException("Cannot create a logger without a server connection.");
+        } else if (this.ipAddress == null || this.ipAddress.equals("")) {
+            throw new IllegalStateException("Cannot create a logger without a server ip address.");
+        } else if (this.port < 1024 || this.port > 65535) {
+            throw new IllegalStateException("Cannot create a logger with an invalid port number.");
         }
-        return new VskLogger(this.minimumLevel, this.name, this.serverConnection);
+        return new VskLogger(this.minimumLevel, this.name, new Connection(this.ipAddress, this.port));
     }
 
     /**
-     * Set minimum log level.
+     * Optionally set the minimum log level. Per default the value is set to INFO.
      *
      * @param minLevel The configured minimum level that will be logged. Lower levels than this won't be logged. e.g. if
      * set to INFO: messages of type DEBUG and TRACE won't be logged.
      */
+    @Override
     public void setMinimumLevel(final LogLevel minLevel) {
         this.minimumLevel = minLevel;
+    }
+
+    @Override
+    public LogLevel getMinimumLevel() {
+        return this.minimumLevel;
     }
 
     /**
@@ -59,14 +63,44 @@ public class VskLoggerSetup implements LoggerSetup {
         this.name = name;
     }
 
+    @Override
+    public String getLoggerName() {
+        return this.name;
+    }
+
     /**
-     * Set serverIp address of the server the logs are getting sent.
-     *
-     * @param host The configured server IP address or hostname.
-     * @param port The port number on which the connection to the server should be made.
+     * Sets the server ip address.
+     * @param s The configured server IP address or hostname.
      */
     @Override
-    public void setLoggerServer(String host, int port) throws UnknownHostException {
-        this.serverConnection = new Connection(host, port);
+    public void setServerIP(String s) {
+        this.ipAddress = s;
+    }
+
+    /**
+     * Gets the server ip address.
+     * @return The configured server IP address or hostname.
+     */
+    @Override
+    public String getServerIP() {
+        return this.ipAddress;
+    }
+
+    /**
+     * Sets the server port number.
+     * @param i The port number on which the connection to the server should be made.
+     */
+    @Override
+    public void setServerPort(int i) {
+        this.port = i;
+    }
+
+    /**
+     * Gets the server port number.
+     * @return The port number on which the connection to the server should be made.
+     */
+    @Override
+    public int getServerPort() {
+        return this.port;
     }
 }
