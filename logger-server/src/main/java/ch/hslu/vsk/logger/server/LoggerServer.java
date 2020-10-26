@@ -15,13 +15,13 @@ import java.util.concurrent.Executors;
 import java.util.logging.Logger;
 
 public class LoggerServer {
-    private static final Logger LOGGER = Logger.getLogger(MessageHandler.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(LoggerServer.class.getName());
     private static final int PORT = 5050;
 
     public static void main(final String[] args) throws IOException {
         final ServerSocket listen = new ServerSocket(PORT);
         final ExecutorService executor = Executors.newCachedThreadPool();
-        LOGGER.info("Listing on port " + PORT);
+        LOGGER.info("Listening on port " + PORT);
         while (true) {
             try {
                 final Socket client = listen.accept();
