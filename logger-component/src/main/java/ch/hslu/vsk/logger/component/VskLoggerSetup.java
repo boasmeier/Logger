@@ -7,7 +7,6 @@
 package ch.hslu.vsk.logger.component;
 
 import ch.hslu.vsk.logger.api.*;
-import java.net.UnknownHostException;
 
 public class VskLoggerSetup implements LoggerSetup {
 
@@ -16,13 +15,12 @@ public class VskLoggerSetup implements LoggerSetup {
     private String ipAddress;
     private int port = 0;
 
-    VskLoggerSetup() {
+    public VskLoggerSetup() {
     }
 
-
     /**
-     * Creates VskLogger with current settings. It's required to first set the name, the minimum log level, the
-     * server ip and port number.
+     * Creates VskLogger with current settings. It's required to first set the name, the minimum log level, the server
+     * ip and port number.
      *
      * @return VskLogger instance
      */
@@ -70,6 +68,7 @@ public class VskLoggerSetup implements LoggerSetup {
 
     /**
      * Sets the server ip address.
+     *
      * @param s The configured server IP address or hostname.
      */
     @Override
@@ -79,6 +78,7 @@ public class VskLoggerSetup implements LoggerSetup {
 
     /**
      * Gets the server ip address.
+     *
      * @return The configured server IP address or hostname.
      */
     @Override
@@ -88,6 +88,7 @@ public class VskLoggerSetup implements LoggerSetup {
 
     /**
      * Sets the server port number.
+     *
      * @param i The port number on which the connection to the server should be made.
      */
     @Override
@@ -97,6 +98,7 @@ public class VskLoggerSetup implements LoggerSetup {
 
     /**
      * Gets the server port number.
+     *
      * @return The port number on which the connection to the server should be made.
      */
     @Override
