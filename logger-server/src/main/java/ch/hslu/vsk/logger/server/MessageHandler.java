@@ -27,6 +27,7 @@ public class MessageHandler implements Runnable {
                 ObjectInputStream ois = new ObjectInputStream(in)) {
             while(true) {
                 final LogMessage message = (LogMessage) ois.readObject();
+                message.setReceived();
                 LOGGER.info(message.toString());
                 final var persistor = new StringPersistorAdapter();
                 persistor.save(message);

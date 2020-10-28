@@ -19,11 +19,11 @@ import java.time.Instant;
  * @author Tobias Heller
  */
 public final class StringPersistorAdapter implements LogPersistor {
-    
+
     private StringPersistor persistor;
-    
+
     public StringPersistorAdapter() {
-        StringPersistor persistor = new StringPersistorFile();
+        this.persistor = new StringPersistorFile();
     }
 
     /**
@@ -33,8 +33,9 @@ public final class StringPersistorAdapter implements LogPersistor {
      */
     @Override
     public final void save(final LogMessage message) {
-        //TODO (Thomas Goldenberger): Decide in which File to store -> Does it have to be here?
-        persistor.setFile(new File("test.txt"));
+        FileSelector selector = new FileSelector(message);
+        File file = selector.select();
+        persistor.setFile(file);
         persistor.save(Instant.now(), message.toString());
     }
 }
