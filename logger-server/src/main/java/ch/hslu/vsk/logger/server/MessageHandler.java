@@ -12,6 +12,7 @@ public class MessageHandler implements Runnable {
     private static final Logger LOGGER = Logger.getLogger(MessageHandler.class.getName());
 
     private final Socket client;
+    private final StringPersistorAdapter persistor = new StringPersistorAdapter();
 
     /**
      * Erzeugt einen MessageHandler, die Empfangenen Daten werden an den StringPersistor weitergeleitet.
@@ -28,8 +29,6 @@ public class MessageHandler implements Runnable {
             while(true) {
                 final LogMessage message = (LogMessage) ois.readObject();
                 message.setReceived();
-                LOGGER.info(message.toString());
-                final var persistor = new StringPersistorAdapter();
                 persistor.save(message);
             }
         } catch (IOException | ClassNotFoundException ex) {
