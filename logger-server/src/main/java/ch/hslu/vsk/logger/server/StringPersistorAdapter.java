@@ -21,9 +21,11 @@ import java.time.Instant;
 public final class StringPersistorAdapter implements LogPersistor {
 
     private StringPersistor persistor;
+    private FileSelector selector;
 
     public StringPersistorAdapter() {
         this.persistor = new StringPersistorFile();
+        this.selector = new FileSelector();
     }
 
     /**
@@ -33,8 +35,7 @@ public final class StringPersistorAdapter implements LogPersistor {
      */
     @Override
     public final void save(final LogMessage message) {
-        FileSelector selector = new FileSelector(message);
-        File file = selector.select();
+        File file = selector.select(message);
         persistor.setFile(file);
         persistor.save(Instant.now(), message.toString());
     }

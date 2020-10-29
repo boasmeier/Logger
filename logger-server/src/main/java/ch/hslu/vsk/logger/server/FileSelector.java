@@ -20,23 +20,19 @@ import java.util.Date;
  */
 public class FileSelector {
 
-    private LogMessage message;
 
     /**
      * Constructor of class FileSelector. Creates a selector which decides where the logMessage should be saved.
-     *
-     * @param message The actual message that should be stored.
      */
-    public FileSelector(LogMessage message) {
-        this.message = message;
+    public FileSelector() {
     }
 
     /**
      * Creates a file to store the logs.
-     *
+     * @param message LogMessage Object to store.
      * @return Returns a new file to store the LogMessage.
      */
-    public File select() {
+    public File select(LogMessage message) {
         String source = message.getLoggerName();
         String home = System.getProperty("user.home");
         String filePath = home + File.separator + "Desktop" + File.separator + source + "_" + getDate() + "_persistor.log";
