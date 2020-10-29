@@ -11,7 +11,6 @@ import ch.hslu.vsk.logger.api.LogLevel;
 import ch.hslu.vsk.logger.api.Logger;
 import ch.hslu.vsk.logger.common.LogMessage;
 import ch.hslu.vsk.logger.common.MessageHelper;
-import java.net.InetAddress;
 
 /**
  * Code of Class VskLogger.

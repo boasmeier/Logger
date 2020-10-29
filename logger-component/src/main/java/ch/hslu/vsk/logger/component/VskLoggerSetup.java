@@ -69,11 +69,11 @@ public class VskLoggerSetup implements LoggerSetup {
     /**
      * Sets the server ip address.
      *
-     * @param s The configured server IP address or hostname.
+     * @param ip The configured server IP address or hostname.
      */
     @Override
-    public void setServerIP(String s) {
-        this.ipAddress = s;
+    public void setServerIP(String ip) {
+        this.ipAddress = ip;
     }
 
     /**
@@ -89,11 +89,11 @@ public class VskLoggerSetup implements LoggerSetup {
     /**
      * Sets the server port number.
      *
-     * @param i The port number on which the connection to the server should be made.
+     * @param port The port number on which the connection to the server should be made.
      */
     @Override
-    public void setServerPort(int i) {
-        this.port = i;
+    public void setServerPort(final int port) {
+        this.port = port;
     }
 
     /**
