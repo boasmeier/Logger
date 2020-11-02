@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.logging.Logger;
 
 public class MessageHandler implements Runnable {
@@ -36,6 +37,8 @@ public class MessageHandler implements Runnable {
         } catch (ClassNotFoundException ex) {
             LOGGER.severe("ClassNotFoundException: " + ex.getMessage());
             ex.printStackTrace();
+        } catch (SocketException ex) {
+            LOGGER.info("Connection to client closed.");
         } catch (IOException ex) {
             LOGGER.severe("IOException: " + ex.getMessage());
             ex.printStackTrace();

@@ -5,3 +5,5 @@
 /logger-component/nbproject/
 *.iml
 /logger-server/nbproject/
+classes/
+logger-server/src/main/java/META-INF/
