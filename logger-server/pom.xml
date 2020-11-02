@@ -30,6 +30,9 @@
     <description>
         VSK Logger Server
     </description>
+    <properties>
+        <jar.start.class>ch.hslu.vsk.logger.server.LoggerServer</jar.start.class>
+    </properties>
 
     <dependencies>
         <dependency>
@@ -72,6 +75,8 @@
             <artifactId>mockito-core</artifactId>
         </dependency>        
     </dependencies>
+    
+
 
     <build>
         <plugins>
