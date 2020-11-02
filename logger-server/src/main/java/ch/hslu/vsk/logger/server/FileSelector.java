@@ -20,7 +20,6 @@ import java.util.Date;
  */
 public class FileSelector {
 
-
     /**
      * Constructor of class FileSelector. Creates a selector which decides where the logMessage should be saved.
      */
@@ -29,6 +28,7 @@ public class FileSelector {
 
     /**
      * Creates a file to store the logs.
+     *
      * @param message LogMessage Object to store.
      * @return Returns a new file to store the LogMessage.
      */
