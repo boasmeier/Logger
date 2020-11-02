@@ -20,7 +20,7 @@
 
     <groupId>ch.hslu.vsk20hs.g01</groupId>
     <artifactId>g01-logger</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>g01-logger</name>
@@ -116,7 +116,7 @@
             <dependency>
                 <groupId>ch.hslu.vsk20hs.g01</groupId>
                 <artifactId>g01-stringpersistor</artifactId>
-                <version>1.0.0</version>
+                <version>1.0.1-SNAPSHOT</version>
                 <scope>compile</scope>
             </dependency>
             <dependency>
