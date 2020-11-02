@@ -31,8 +31,12 @@ public class MessageHandler implements Runnable {
                 message.setReceived();
                 persistor.save(message);
             }
-        } catch (IOException | ClassNotFoundException ex) {
-            LOGGER.severe(ex.getMessage());
+        } catch (ClassNotFoundException ex) {
+            LOGGER.severe("ClassNotFoundException: " + ex.getMessage());
+            ex.printStackTrace();
+        }
+        catch (IOException ex) {
+            LOGGER.severe("IOException: " + ex.getMessage());
             ex.printStackTrace();
         }
     }
