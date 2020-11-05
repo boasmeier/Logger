@@ -10,7 +10,7 @@ package ch.hslu.vsk.logger.server;
 import ch.hslu.vsk.logger.common.LogMessage;
 
 /**
- * Code of Interface LogPersistor.
+ * LogPersistor Interface, which specifies how to save a LogMessage Object.
  * @author Tobias Heller
  */
 public interface LogPersistor {
