@@ -16,17 +16,13 @@ public class FileHelper {
      * @param arguments The arguments to read in the file.
      * @return Returns a list containing all values of the given arguments.
      */
-    public static List<String> read(String path, List<String> arguments) {
+    public static List<String> read(String path, List<String> arguments) throws IOException {
         try (FileReader reader = new FileReader(new File(path))) {
             Properties properties = new Properties();
             properties.load(reader);
             List<String> data = new ArrayList<String>(arguments.size());
             arguments.forEach(a -> data.add(properties.getProperty(a)));
             return data;
-        } catch (IOException e) {
-            LOGGER.severe("An error occurred while reading config file: " + e.getMessage());
-            e.printStackTrace();
-            return new ArrayList<>();
         }
     }
 }
