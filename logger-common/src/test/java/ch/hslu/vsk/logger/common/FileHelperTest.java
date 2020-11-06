@@ -16,6 +16,9 @@ class FileHelperTest {
         deleteConfigFile();
     }
 
+    /**
+     * Tests creating and reading an example configuration file.
+     */
     @Test
     void testReadAny() throws IOException {
         var arguments = new HashMap<String, String>();
@@ -29,6 +32,9 @@ class FileHelperTest {
         assertEquals(actual.get(1), "value3");
     }
 
+    /**
+     * Verifies that result is null when trying to read non-existing arguments from the file.
+     */
     @Test
     void testReadEmpty() throws IOException {
         var arguments = new HashMap<String, String>();
@@ -39,6 +45,9 @@ class FileHelperTest {
         assertNull(actual.get(1));
     }
 
+    /**
+     * Tests creating and reading a sample of the game configuration file.
+     */
     @Test
     void testReadGameConfiguration() throws IOException {
         var arguments = new HashMap<String, String>();
@@ -57,6 +66,9 @@ class FileHelperTest {
         assertEquals(actual.get(4), "gameInstance1");
     }
 
+    /**
+     * Tests creating and reading a sample of the server configuration file.
+     */
     @Test
     void testReadServerConfiguration() throws IOException {
         var arguments = new HashMap<String, String>();
@@ -71,13 +83,12 @@ class FileHelperTest {
         assertEquals(actual.get(2), "path/to/file.txt");
     }
 
+    /**
+     * Tests if the FileNotFoundException is thrown when trying to read the config file without creating it.
+     */
     @Test
     void testReadFileNotFound() {
-        final Exception ex = assertThrows(FileNotFoundException.class, () -> {
-            List<String> actual = FileHelper.read(filePath, Arrays.asList("className", "port", "path"));
-        });
-        String expected = filePath + " (The system cannot find the file specified)";
-        assertEquals(expected, ex.getMessage());
+        assertThrows(FileNotFoundException.class, () -> FileHelper.read(filePath, Arrays.asList("className", "port", "path")));
     }
 
     private void createConfigFile(Map<String, String> arguments) {

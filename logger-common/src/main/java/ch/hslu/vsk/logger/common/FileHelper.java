@@ -20,7 +20,7 @@ public class FileHelper {
         try (FileReader reader = new FileReader(new File(path))) {
             Properties properties = new Properties();
             properties.load(reader);
-            List<String> data = new ArrayList<String>(arguments.size());
+            List<String> data = new ArrayList<>(arguments.size());
             arguments.forEach(a -> data.add(properties.getProperty(a)));
             return data;
         }
