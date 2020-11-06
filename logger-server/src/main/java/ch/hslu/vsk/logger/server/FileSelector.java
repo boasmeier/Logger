@@ -16,14 +16,16 @@ import java.util.Date;
 /**
  * Code of Class FileSelector.
  *
- * @author Thomas Goldenberger
+ * @author Thomas Goldenberger, Silvan Wenk
  */
-public class FileSelector {
+class FileSelector {
+    private String logFilePath;
 
     /**
      * Constructor of class FileSelector. Creates a selector which decides where the logMessage should be saved.
      */
-    public FileSelector() {
+    FileSelector(String logFilePath) {
+        this.logFilePath = logFilePath;
     }
 
     /**
@@ -32,12 +34,10 @@ public class FileSelector {
      * @param message LogMessage Object to store.
      * @return Returns a new file to store the LogMessage.
      */
-    public File select(LogMessage message) {
+    File select(LogMessage message) {
         String source = message.getLoggerName();
-        String home = System.getProperty("user.home");
-        String filePath = home + File.separator + "Desktop" + File.separator + source + "_" + getDate() + "_persistor.log";
-        File file = new File(filePath);
-        return file;
+        String filePath = this.logFilePath + File.separator + source + "_" + getDate() + "_persistor.log";
+        return new File(filePath);
     }
 
     private String getDate() {

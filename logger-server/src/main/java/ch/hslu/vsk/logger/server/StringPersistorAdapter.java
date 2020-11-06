@@ -7,11 +7,15 @@
  */
 package ch.hslu.vsk.logger.server;
 
+import ch.hslu.vsk.logger.common.FileHelper;
 import ch.hslu.vsk.logger.common.LogMessage;
 import ch.hslu.vsk.stringpersistor.api.StringPersistor;
 import ch.hslu.vsk.stringpersistor.impl.StringPersistorFile;
 import java.io.File;
+import java.io.IOException;
 import java.time.Instant;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Code of Class StringPersistorAdapter.
@@ -23,9 +27,19 @@ public final class StringPersistorAdapter implements LogPersistor {
     private StringPersistor persistor;
     private FileSelector selector;
 
-    public StringPersistorAdapter() {
+    StringPersistorAdapter() {
+        String fileType = "Simple"; //TODO: Use Strategy to instantiate correct fileType
+        String path = ""; //TODO: Default log path
+        try {
+            List<String> arguments = FileHelper.read("loggerServerConfig", Arrays.asList("file_type", "path"));
+            fileType = arguments.get(0);
+            path = arguments.get(1);
+        } catch (IOException ex) {
+            //TODO: handle
+        }
+
         this.persistor = new StringPersistorFile();
-        this.selector = new FileSelector();
+        this.selector = new FileSelector(path);
     }
 
     /**

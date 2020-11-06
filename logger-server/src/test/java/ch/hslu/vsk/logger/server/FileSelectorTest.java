@@ -18,11 +18,12 @@ import static org.junit.jupiter.api.Assertions.*;
  * @author Thomas Goldenberger
  */
 public class FileSelectorTest {
+    private static String filePath = System.getProperty("user.home") + File.separator + "Desktop";
 
     @Test
     public void testSelect1() {
         LogMessage message = new LogMessage("Test", LogLevel.INFO, "testmessage");
-        FileSelector selector = new FileSelector();
+        FileSelector selector = new FileSelector(filePath);
         File file = selector.select(message);
         boolean b = file.equals(new File(""));
         assertEquals(false, b);
@@ -32,7 +33,7 @@ public class FileSelectorTest {
     public void testSelect2() {
         LogMessage message1 = new LogMessage("Test", LogLevel.INFO, "testmessage");
         LogMessage message2 = new LogMessage("Logger", LogLevel.INFO, "Log.info");
-        FileSelector selector = new FileSelector();
+        FileSelector selector = new FileSelector(filePath);
         File file1 = selector.select(message1);
         File file2 = selector.select(message2);
         boolean b = file1.equals(file2);
@@ -43,7 +44,7 @@ public class FileSelectorTest {
     public void testSelect3() {
         LogMessage message1 = new LogMessage("Test", LogLevel.INFO, "testmessage");
         LogMessage message2 = new LogMessage("Test", LogLevel.INFO, "testmessage");
-        FileSelector selector = new FileSelector();
+        FileSelector selector = new FileSelector(filePath);
         File file1 = selector.select(message1);
         File file2 = selector.select(message2);
         assertEquals(file1, file2);
@@ -54,7 +55,7 @@ public class FileSelectorTest {
         DateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
         String home = System.getProperty("user.home");
         LogMessage message = new LogMessage("Test", LogLevel.INFO, "testmessage");
-        FileSelector selector = new FileSelector();
+        FileSelector selector = new FileSelector(filePath);
         File file = selector.select(message);
         String path = home + File.separator + "Desktop" + File.separator + message.getLoggerName() + "_" + formatter.format(new Date()) + "_persistor.log";
         assertEquals(file.getAbsolutePath(), path);
