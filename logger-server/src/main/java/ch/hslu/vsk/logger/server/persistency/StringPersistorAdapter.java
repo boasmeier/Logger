@@ -24,10 +24,10 @@ import java.util.logging.Logger;
  * Code of Class StringPersistorAdapter.
  * @author Tobias Heller, Silvan Wenk
  */
-public final class StringPersistorAdapter {
+public final class StringPersistorAdapter implements LogPersistor {
     private static final Logger LOGGER = Logger.getLogger(LoggerServer.class.getName());
     private static final String DEFAULT_PATH = System.getProperty("user.home") + "Desktop";
-    private static final String DEFAULT_FILE_TYPE = "Simple";
+    private static final String DEFAULT_FILE_TYPE = "basic";
 
     private Persistable persistable;
     private StringPersistor persistor;
@@ -47,6 +47,7 @@ public final class StringPersistorAdapter {
      * Store a message to the StringPersistor.
      * @param message LogMessage Object to store.
      */
+    @Override
     public final void save(final LogMessage message) {
         File file = selector.select(message);
         persistor.setFile(file);
@@ -79,10 +80,10 @@ public final class StringPersistorAdapter {
      */
     private void setPersistableStrategy(final String type) {
         switch(FileTypeExtension.getEnum(type)) {
-            case Enhanced: this.persistable = new EnhancedPersist();
-            case Xml: this.persistable = new XmlPersist();
-            case Json: this.persistable = new JsonPersist();
-            default: this.persistable = new BasicPersist();
+            case Enhanced: this.persistable = new EnhancedPersist(); break;
+            case Xml: this.persistable = new XmlPersist(); break;
+            case Json: this.persistable = new JsonPersist(); break;
+            default: this.persistable = new BasicPersist(); break;
         }
     }
 }
