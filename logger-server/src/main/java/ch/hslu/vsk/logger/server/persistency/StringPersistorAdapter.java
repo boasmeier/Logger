@@ -5,10 +5,13 @@
  * Copyright(c) 2020 Tobias Heller.
  * This software is the proprietary information of Tobias Heller.
  */
-package ch.hslu.vsk.logger.server;
+package ch.hslu.vsk.logger.server.persistency;
 
 import ch.hslu.vsk.logger.common.FileHelper;
 import ch.hslu.vsk.logger.common.LogMessage;
+import ch.hslu.vsk.logger.server.LoggerServer;
+import ch.hslu.vsk.logger.server.persistency.FileSelector;
+import ch.hslu.vsk.logger.server.persistency.LogPersistor;
 import ch.hslu.vsk.stringpersistor.api.StringPersistor;
 import ch.hslu.vsk.stringpersistor.impl.StringPersistorFile;
 import java.io.File;
@@ -34,7 +37,7 @@ public final class StringPersistorAdapter implements LogPersistor {
     /**
      * Creates and configures a StringPersistorAdapter.
      */
-    StringPersistorAdapter() {
+    public StringPersistorAdapter() {
         final List<String> arguments = this.getConfigurationArguments();
         String fileType = arguments.get(0);
         String path = arguments.get(1);

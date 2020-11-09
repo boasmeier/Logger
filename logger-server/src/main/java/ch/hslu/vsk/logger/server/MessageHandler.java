@@ -1,6 +1,8 @@
 package ch.hslu.vsk.logger.server;
 
 import ch.hslu.vsk.logger.common.LogMessage;
+import ch.hslu.vsk.logger.server.persistency.StringPersistorAdapter;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;

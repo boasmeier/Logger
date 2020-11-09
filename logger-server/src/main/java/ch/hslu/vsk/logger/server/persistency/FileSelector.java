@@ -5,7 +5,7 @@
  * Copyright(c) 2020 Thomas Goldenberger.
  * This software is the proprietary information of Thomas Goldenberger.
  */
-package ch.hslu.vsk.logger.server;
+package ch.hslu.vsk.logger.server.persistency;
 
 import ch.hslu.vsk.logger.common.LogMessage;
 import java.io.File;

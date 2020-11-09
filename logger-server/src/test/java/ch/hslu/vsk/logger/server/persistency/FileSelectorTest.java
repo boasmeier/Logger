@@ -2,7 +2,7 @@
  * Copyright(c) 2020 Thomas Goldenberger.
  * This software is the proprietary information of Thomas Goldenberger.
  */
-package ch.hslu.vsk.logger.server;
+package ch.hslu.vsk.logger.server.persistency;
 
 import ch.hslu.vsk.logger.api.LogLevel;
 import ch.hslu.vsk.logger.common.LogMessage;
@@ -10,6 +10,8 @@ import java.io.File;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import ch.hslu.vsk.logger.server.persistency.FileSelector;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 

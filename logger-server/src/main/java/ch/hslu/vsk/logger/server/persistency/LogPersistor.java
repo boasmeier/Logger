@@ -5,7 +5,7 @@
  * Copyright(c) 2020 Tobias Heller.
  * This software is the proprietary information of Tobias Heller.
 */
-package ch.hslu.vsk.logger.server;
+package ch.hslu.vsk.logger.server.persistency;
 
 import ch.hslu.vsk.logger.common.LogMessage;
 
