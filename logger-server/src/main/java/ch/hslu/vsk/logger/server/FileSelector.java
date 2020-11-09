@@ -15,22 +15,21 @@ import java.util.Date;
 
 /**
  * Code of Class FileSelector.
- *
  * @author Thomas Goldenberger, Silvan Wenk
  */
 class FileSelector {
     private String logFilePath;
 
     /**
-     * Constructor of class FileSelector. Creates a selector which decides where the logMessage should be saved.
+     * Creates a selector which configures where the LogMessage should be saved.
+     * @param logFilePath Path to store the log files.
      */
     FileSelector(String logFilePath) {
         this.logFilePath = logFilePath;
     }
 
     /**
-     * Creates a file to store the logs.
-     *
+     * Creates a file to hstore te logs.
      * @param message LogMessage Object to store.
      * @return Returns a new file to store the LogMessage.
      */

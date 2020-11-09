@@ -16,15 +16,17 @@ public class MessageHandler implements Runnable {
     private final StringPersistorAdapter persistor;
 
     /**
-     * Erzeugt einen MessageHandler, die Empfangenen Daten werden an den StringPersistor weitergeleitet.
-     *
-     * @param client Verbindung zum entfernten Client.
+     * Creates a message handler, the received data is forwarded to the StringPersistorAdapter.
+     * @param client Connection to the remote client.
      */
-    public MessageHandler(final Socket client) {
+    MessageHandler(final Socket client) {
         this.client = client;
         this.persistor = new StringPersistorAdapter();
     }
 
+    /**
+     * Waits for messages, deserializes and persists them using the StringPersistorAdapter.
+     */
     @Override
     public void run() {
         try (InputStream in = client.getInputStream();

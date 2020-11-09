@@ -22,9 +22,14 @@ import java.util.logging.Logger;
 public class LoggerServer {
     private static final Logger LOGGER = Logger.getLogger(LoggerServer.class.getName());
 
+    /**
+     * Runs the logger server application, reads the configuration and persists the logs with
+     * the specified log file type.
+     * @param args Main arguments.
+     * @throws IOException Triggered when application unexpectedly crashes.
+     */
     public static void main(final String[] args) throws IOException {
-        List<String> arguments = FileHelper.read("." + File.separator + "loggerServerConfig", Collections.singletonList("port"));
-        final int port = Integer.parseInt(arguments.get(0));
+        final int port = getPort();
         final ServerSocket listen = new ServerSocket(port);
         final ExecutorService executor = Executors.newCachedThreadPool();
         LOGGER.info("Listening on port " + port);
@@ -37,6 +42,24 @@ public class LoggerServer {
                 LOGGER.severe(ex.getMessage());
                 ex.printStackTrace();
             }
+        }
+    }
+
+    /**
+     * Reads the port number from the loggerServerConfig file, which should be placed in the
+     * root directory of this project. If no file or port specified, default port is 5050.
+     * @return A port number.
+     */
+    private static int getPort() {
+        try {
+            List<String> arguments = FileHelper
+                    .read("." + File.separator + "loggerServerConfig", Collections.singletonList("port"));
+            final String portArgument = arguments.get(0);
+            return portArgument == null ? 5050 : Integer.parseInt(arguments.get(0));
+        } catch (IOException ex) {
+            LOGGER.warning("Could not open server configuration file: " + ex.getMessage());
+            ex.printStackTrace();
+            return 5050;
         }
     }
 }
