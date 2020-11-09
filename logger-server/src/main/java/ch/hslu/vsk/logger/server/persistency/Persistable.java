@@ -8,15 +8,17 @@
 package ch.hslu.vsk.logger.server.persistency;
 
 import ch.hslu.vsk.logger.common.LogMessage;
+import ch.hslu.vsk.stringpersistor.api.StringPersistor;
 
 /**
  * LogPersistor Interface, which specifies how to save a LogMessage Object.
  * @author Tobias Heller
  */
-public interface LogPersistor {
+public interface Persistable {
     /**
-     * Saves a LogMessage in a persistent way.
+     * Serializes the message and forward it to the StringPersitor.
+     * @param persistor The StringPersistor implementation which saves the message to the file.
      * @param message The message to save.
      */
-    public void save(final LogMessage message);
+    public void save(final StringPersistor persistor, final LogMessage message);
 }

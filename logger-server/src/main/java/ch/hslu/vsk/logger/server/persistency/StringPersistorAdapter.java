@@ -10,8 +10,6 @@ package ch.hslu.vsk.logger.server.persistency;
 import ch.hslu.vsk.logger.common.FileHelper;
 import ch.hslu.vsk.logger.common.LogMessage;
 import ch.hslu.vsk.logger.server.LoggerServer;
-import ch.hslu.vsk.logger.server.persistency.FileSelector;
-import ch.hslu.vsk.logger.server.persistency.LogPersistor;
 import ch.hslu.vsk.stringpersistor.api.StringPersistor;
 import ch.hslu.vsk.stringpersistor.impl.StringPersistorFile;
 import java.io.File;
@@ -26,11 +24,12 @@ import java.util.logging.Logger;
  * Code of Class StringPersistorAdapter.
  * @author Tobias Heller, Silvan Wenk
  */
-public final class StringPersistorAdapter implements LogPersistor {
+public final class StringPersistorAdapter {
     private static final Logger LOGGER = Logger.getLogger(LoggerServer.class.getName());
     private static final String DEFAULT_PATH = System.getProperty("user.home") + "Desktop";
     private static final String DEFAULT_FILE_TYPE = "Simple";
 
+    private Persistable persistable;
     private StringPersistor persistor;
     private FileSelector selector;
 
@@ -39,21 +38,19 @@ public final class StringPersistorAdapter implements LogPersistor {
      */
     public StringPersistorAdapter() {
         final List<String> arguments = this.getConfigurationArguments();
-        String fileType = arguments.get(0);
-        String path = arguments.get(1);
+        this.setPersistableStrategy(arguments.get(0));
         this.persistor = new StringPersistorFile();
-        this.selector = new FileSelector(path);
+        this.selector = new FileSelector(arguments.get(1));
     }
 
     /**
      * Store a message to the StringPersistor.
      * @param message LogMessage Object to store.
      */
-    @Override
     public final void save(final LogMessage message) {
         File file = selector.select(message);
         persistor.setFile(file);
-        persistor.save(Instant.now(), message.toString());
+        persistable.save(persistor, message);
     }
 
     /**
@@ -61,7 +58,7 @@ public final class StringPersistorAdapter implements LogPersistor {
      * @return If exception or arguments not found the default configuration is returned.
      */
     private List<String> getConfigurationArguments() {
-        List<String> arguments = new ArrayList<String>();
+        List<String> arguments = new ArrayList<>();
         try {
             var args = FileHelper.read("loggerServerConfig", Arrays.asList("file_type", "path"));
             arguments.add(args.get(0) == null ? DEFAULT_FILE_TYPE : args.get(0));
@@ -73,6 +70,19 @@ public final class StringPersistorAdapter implements LogPersistor {
             arguments.add(DEFAULT_FILE_TYPE);
             arguments.add(DEFAULT_PATH);
             return arguments;
+        }
+    }
+
+    /**
+     * Sets the correct implementation strategy.
+     * @param type Argument of the server configuration file.
+     */
+    private void setPersistableStrategy(final String type) {
+        switch(FileTypeExtension.getEnum(type)) {
+            case Enhanced: this.persistable = new EnhancedPersist();
+            case Xml: this.persistable = new XmlPersist();
+            case Json: this.persistable = new JsonPersist();
+            default: this.persistable = new BasicPersist();
         }
     }
 }
