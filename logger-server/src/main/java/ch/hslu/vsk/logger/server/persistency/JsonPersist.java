@@ -5,7 +5,7 @@ import ch.hslu.vsk.stringpersistor.api.StringPersistor;
 
 public class JsonPersist implements Persistable {
     @Override
-    public void save(StringPersistor persistor, LogMessage message) {
+    public String build(LogMessage message) {
         throw new UnsupportedOperationException();
     }
 }

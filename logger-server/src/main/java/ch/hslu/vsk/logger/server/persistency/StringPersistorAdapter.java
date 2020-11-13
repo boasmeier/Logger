@@ -51,7 +51,7 @@ public final class StringPersistorAdapter implements LogPersistor {
     public final void save(final LogMessage message) {
         File file = selector.select(message);
         persistor.setFile(file);
-        persistable.save(persistor, message);
+        persistor.save(Instant.now(), persistable.build(message));
     }
 
     /**

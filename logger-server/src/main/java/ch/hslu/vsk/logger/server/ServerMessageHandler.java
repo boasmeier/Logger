@@ -1,6 +1,7 @@
 package ch.hslu.vsk.logger.server;
 
 import ch.hslu.vsk.logger.common.LogMessage;
+import ch.hslu.vsk.logger.server.persistency.LogPersistor;
 import ch.hslu.vsk.logger.server.persistency.StringPersistorAdapter;
 
 import java.io.IOException;
@@ -15,7 +16,7 @@ public class ServerMessageHandler implements Runnable {
     private static final Logger LOGGER = Logger.getLogger(ServerMessageHandler.class.getName());
 
     private final Socket client;
-    private final StringPersistorAdapter persistor;
+    private final LogPersistor persistor;
 
     /**
      * Creates a message handler, the received data is forwarded to the StringPersistorAdapter.

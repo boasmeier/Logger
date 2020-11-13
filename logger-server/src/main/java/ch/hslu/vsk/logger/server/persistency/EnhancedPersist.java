@@ -1,17 +1,14 @@
 package ch.hslu.vsk.logger.server.persistency;
 
 import ch.hslu.vsk.logger.common.LogMessage;
-import ch.hslu.vsk.stringpersistor.api.StringPersistor;
-
-import java.time.Instant;
 
 public class EnhancedPersist implements Persistable {
+    /**
+     * Uses toString to serialize the message.
+     * @param message The message to save.
+     */
     @Override
-    public void save(StringPersistor persistor, LogMessage message) {
-        persistor.save(Instant.now(), this.build(message));
-    }
-
-    String build(LogMessage message) {
+    public String build(LogMessage message) {
         return String.format(
                 "%s | Message: %s, Created: %s, Received: %s",
                 message.getLogLevel(),
