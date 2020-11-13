@@ -12,6 +12,7 @@ import java.io.Serializable;
 import java.time.Instant;
 import java.util.Objects;
 import java.util.UUID;
+import java.util.logging.Logger;
 
 /**
  * Code of Class LogMessage.
@@ -25,6 +26,8 @@ public final class LogMessage implements Serializable {
      */
     private static final long serialVersionUID = 20201009L;
 
+    private static final Logger LOG = Logger.getLogger(LogMessage.class.getName());
+
     private final UUID uuid;
     private final String message;
     private final String loggerName;
@@ -33,8 +36,8 @@ public final class LogMessage implements Serializable {
     private Instant receivedAt;
 
     /**
-     * Constructor of class LogMessage. Automatically generates an unique UUID and 
-     * stores the date and time of creation.
+     * Constructor of class LogMessage. Automatically generates an unique UUID and stores the date and time of creation.
+     *
      * @param logLevel The LogLevel this message has.
      * @param loggerName The Name of the logger from where the Message was created.
      * @param message The actual message that should be stored.
@@ -66,7 +69,7 @@ public final class LogMessage implements Serializable {
     public Instant getReceivedAt() {
         return receivedAt;
     }
-    
+
     public String getLoggerName() {
         return loggerName;
     }

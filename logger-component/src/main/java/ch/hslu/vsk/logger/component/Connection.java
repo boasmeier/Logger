@@ -23,6 +23,7 @@ public class Connection {
 
     private static final Logger LOG = Logger.getLogger(Connection.class.getName());
     private final BlockingQueue<LogMessage> messageQueue;
+    private Socket socket = null;
 
     /**
      * Creates a new Connection to the Logger-Server.
@@ -33,7 +34,7 @@ public class Connection {
     public Connection(final String host, final int port) {
         this.messageQueue = new ArrayBlockingQueue<>(30);
         try {
-            var socket = new Socket(host, port);
+            socket = new Socket(host, port);
             var messageHandler = new MessageHandler(socket, this.messageQueue);
             new Thread(messageHandler).start();
         } catch (IOException ex) {
@@ -49,5 +50,9 @@ public class Connection {
      */
     public boolean send(final LogMessage message) {
         return messageQueue.offer(message);
+    }
+
+    public boolean isClosed() {
+        return socket.isClosed();
     }
 }

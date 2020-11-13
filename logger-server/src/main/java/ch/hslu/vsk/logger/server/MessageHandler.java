@@ -28,7 +28,7 @@ public class MessageHandler implements Runnable {
     @Override
     public void run() {
         try (InputStream in = client.getInputStream();
-                ObjectInputStream ois = new ObjectInputStream(in)) {
+                ObjectInputStream ois = new ObjectInputStream(in);) {
             while (true) {
                 final LogMessage message = (LogMessage) ois.readObject();
                 message.setReceived();

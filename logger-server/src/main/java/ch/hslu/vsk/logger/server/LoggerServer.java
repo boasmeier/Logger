@@ -1,10 +1,10 @@
 /*
  * LoggerServer.java
  * Created on 19.10.2020
- * 
+ *
  * Copyright(c) 2020 Silvan Wenk.
  * This software is the proprietary information of Tobias Heller.
-*/
+ */
 package ch.hslu.vsk.logger.server;
 
 import java.io.IOException;
@@ -15,6 +15,7 @@ import java.util.concurrent.Executors;
 import java.util.logging.Logger;
 
 public class LoggerServer {
+
     private static final Logger LOGGER = Logger.getLogger(LoggerServer.class.getName());
     private static final int PORT = 5050;
 
