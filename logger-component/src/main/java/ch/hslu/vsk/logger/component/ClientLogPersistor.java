@@ -1,9 +1,9 @@
 /*
- * LogPersistor.java
+ * ClientLogPersistor.java
  * Created on 22.10.2020
  *
  * Copyright(c) 2020 Boas Meier.
- * This software is the proprietary information of Tobias Heller.
+ * This software is the proprietary information of Boas Meier.
  */
 package ch.hslu.vsk.logger.component;
 
@@ -11,11 +11,11 @@ import ch.hslu.vsk.logger.common.LogMessage;
 import java.util.Queue;
 
 /**
- * Code of Interface LogPersistor.
+ * Code of Interface ClientLogPersistor.
  *
  * @author Boas Meier
  */
-public interface LogPersistor {
+public interface ClientLogPersistor {
 
     /**
      * Saves a LogMessage in a persistent way.

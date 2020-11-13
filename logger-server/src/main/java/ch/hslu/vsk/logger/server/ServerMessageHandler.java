@@ -10,9 +10,9 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.util.logging.Logger;
 
-public class MessageHandler implements Runnable {
+public class ServerMessageHandler implements Runnable {
 
-    private static final Logger LOGGER = Logger.getLogger(MessageHandler.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(ServerMessageHandler.class.getName());
 
     private final Socket client;
     private final StringPersistorAdapter persistor;
@@ -21,7 +21,7 @@ public class MessageHandler implements Runnable {
      * Creates a message handler, the received data is forwarded to the StringPersistorAdapter.
      * @param client Connection to the remote client.
      */
-    MessageHandler(final Socket client) {
+    ServerMessageHandler(final Socket client) {
         this.client = client;
         this.persistor = new StringPersistorAdapter();
     }

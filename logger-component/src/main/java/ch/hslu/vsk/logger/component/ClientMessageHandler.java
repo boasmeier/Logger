@@ -1,5 +1,5 @@
 /*
- * MessageHandler.java
+ * ClientMessageHandler.java
  * Created on 19.10.2020
  *
  * Copyright(c) 2020 Tobias Heller.
@@ -16,14 +16,14 @@ import java.util.concurrent.BlockingQueue;
 import java.util.logging.Logger;
 
 /**
- * Code of Class MessageHandler.
+ * Code of Class ClientMessageHandler.
  *
  * @author Tobias Heller
  */
-public class MessageHandler implements Runnable {
+public class ClientMessageHandler implements Runnable {
 
-    private static final Logger LOG = Logger.getLogger(MessageHandler.class.getName());
-    private final LogPersistor persistor;
+    private static final Logger LOG = Logger.getLogger(ClientMessageHandler.class.getName());
+    private final ClientLogPersistor persistor;
 
     private Socket socket;
     boolean isConnected = true;
@@ -38,10 +38,10 @@ public class MessageHandler implements Runnable {
      * @param socket Socket über welchen die Kommunikation zum Server gehen soll.
      * @param queue BlockingQueue, welche die zu sendenden Messages enthält.
      */
-    public MessageHandler(final Socket socket, final BlockingQueue<LogMessage> queue) {
+    public ClientMessageHandler(final Socket socket, final BlockingQueue<LogMessage> queue) {
         this.socket = socket;
         this.messageQueue = queue;
-        this.persistor = new StringPersistorAdapter();
+        this.persistor = new ClientStringPersistorAdapter();
     }
 
     @Override

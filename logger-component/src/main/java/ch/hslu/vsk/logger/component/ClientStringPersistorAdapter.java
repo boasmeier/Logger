@@ -1,5 +1,5 @@
 /*
- * StringPersistorAdapter.java
+ * ClientStringPersistorAdapter.java
  * Created on 09.11.2020
  *
  * Copyright(c) 2020 Boas Meier.
@@ -18,19 +18,19 @@ import java.util.List;
 import java.util.Queue;
 
 /**
- * Code of Class StringPersistorAdapter.
+ * Code of Class ClientStringPersistorAdapter.
  *
  * @author Boas Meier
  */
-public final class StringPersistorAdapter implements LogPersistor {
+public final class ClientStringPersistorAdapter implements ClientLogPersistor {
 
     private final StringPersistor persistor;
-    private final FileSelector selector;
+    private final File file;
     private final Queue<File> files;
 
-    public StringPersistorAdapter() {
+    public ClientStringPersistorAdapter() {
         this.persistor = new StringPersistorFile();
-        this.selector = new FileSelector();
+        this.file = new File("." + File.separator + "tmp_logmessage_cache.log");
         this.files = new LinkedList<>();
     }
 
@@ -41,10 +41,6 @@ public final class StringPersistorAdapter implements LogPersistor {
      */
     @Override
     public final void save(final LogMessage message) {
-        File file = selector.select(message);
-        if (!files.contains(file)) {
-            files.offer(file);
-        }
         persistor.setFile(file);
         System.out.println("Persist to file: " + file);
         String objectAsString = ObjectHelper.objectToString(message);
@@ -54,17 +50,12 @@ public final class StringPersistorAdapter implements LogPersistor {
     @Override
     public Queue<LogMessage> get() {
         Queue<LogMessage> strings = new LinkedList<>();
-        while (!files.isEmpty()) {
-            File file = files.remove();
-            persistor.setFile(file);
-            System.out.println("Persist to file: " + file);
-            List<PersistedString> tmp = persistor.get(10);
-            System.out.println("AAAAAAAAAAAAAAAAAAA" + tmp.get(0));
-            while (!tmp.isEmpty()) {
-                strings.offer((LogMessage) ObjectHelper.stringToObject(tmp.remove(0).getPayload()));
-            }
-            //file.delete();
+        persistor.setFile(file);
+        List<PersistedString> tmp = persistor.get(Integer.MAX_VALUE);
+        while (!tmp.isEmpty()) {
+            strings.offer((LogMessage) ObjectHelper.stringToObject(tmp.remove(0).getPayload()));
         }
+        file.delete();
         return strings;
     }
 }

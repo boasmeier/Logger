@@ -35,7 +35,7 @@ public class Connection {
         this.messageQueue = new ArrayBlockingQueue<>(30);
         try {
             socket = new Socket(host, port);
-            var messageHandler = new MessageHandler(socket, this.messageQueue);
+            var messageHandler = new ClientMessageHandler(socket, this.messageQueue);
             new Thread(messageHandler).start();
         } catch (IOException ex) {
             LOG.severe(String.format("IOException (Socket %s:%s): %s", host, port, ex.getLocalizedMessage()));

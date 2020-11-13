@@ -8,7 +8,6 @@
 package ch.hslu.vsk.logger.server;
 
 import ch.hslu.vsk.logger.common.FileHelper;
-
 import java.io.File;
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -24,8 +23,9 @@ public class LoggerServer {
     private static final Logger LOGGER = Logger.getLogger(LoggerServer.class.getName());
 
     /**
-     * Runs the logger server application, reads the configuration and persists the logs with
-     * the specified log file type.
+     * Runs the logger server application, reads the configuration and persists the logs with the specified log file
+     * type.
+     *
      * @param args Main arguments.
      * @throws IOException Triggered when application unexpectedly crashes.
      */
@@ -37,7 +37,7 @@ public class LoggerServer {
         while (true) {
             try {
                 final Socket client = listen.accept();
-                final MessageHandler handler = new MessageHandler(client);
+                final ServerMessageHandler handler = new ServerMessageHandler(client);
                 executor.execute(handler);
             } catch (Exception ex) {
                 LOGGER.severe(ex.getMessage());
@@ -47,8 +47,9 @@ public class LoggerServer {
     }
 
     /**
-     * Reads the port number from the loggerServerConfig file, which should be placed in the
-     * root directory of this project. If no file or port specified, default port is 5050.
+     * Reads the port number from the loggerServerConfig file, which should be placed in the root directory of this
+     * project. If no file or port specified, default port is 5050.
+     *
      * @return A port number.
      */
     private static int getPort() {
