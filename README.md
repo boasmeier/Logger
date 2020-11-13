@@ -11,9 +11,9 @@ The server runs using the default arguments without any configuration file.
 
 | Name | Default | Description |
 |---|---|---|
-| File structure | `basic` | Sets the format how the log files are structured. Choose from `basic`, `enhanced`, `xml` or `json`. Xml and Json is not implemented yet. |
-| Port | 5050 | Sets the port on which the server application runs. |
-| Log directory | Desktop (OS dependant) | Sets the path where the log files are stored. |
+| file_type | `basic` | Sets the format how the log files are structured. Choose from `basic`, `enhanced`, `xml` or `json`. Xml and Json is not implemented yet. |
+| port | 5050 | Sets the port on which the server application runs. |
+| path | Desktop (OS dependant) | Sets the path where the log files are stored. |
 
 **Configuration File**
 
