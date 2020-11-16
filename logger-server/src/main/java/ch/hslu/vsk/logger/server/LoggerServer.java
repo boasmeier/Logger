@@ -8,10 +8,15 @@
 package ch.hslu.vsk.logger.server;
 
 import ch.hslu.vsk.logger.common.FileHelper;
+import ch.hslu.vsk.logger.server.remote.LoggerImpl;
+
 import java.io.File;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.rmi.AlreadyBoundException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -19,7 +24,6 @@ import java.util.concurrent.Executors;
 import java.util.logging.Logger;
 
 public class LoggerServer {
-
     private static final Logger LOGGER = Logger.getLogger(LoggerServer.class.getName());
 
     /**
@@ -29,10 +33,16 @@ public class LoggerServer {
      * @param args Main arguments.
      * @throws IOException Triggered when application unexpectedly crashes.
      */
-    public static void main(final String[] args) throws IOException {
+    public static void main(final String[] args) throws IOException, AlreadyBoundException {
         final int port = getPort();
+
+        final Registry reg = LocateRegistry.getRegistry(Registry.REGISTRY_PORT);
+        final LoggerImpl logger = new LoggerImpl();
+        reg.bind("logger", logger);
+
         final ServerSocket listen = new ServerSocket(port);
         final ExecutorService executor = Executors.newCachedThreadPool();
+
         LOGGER.info("Listening on port " + port);
         while (true) {
             try {

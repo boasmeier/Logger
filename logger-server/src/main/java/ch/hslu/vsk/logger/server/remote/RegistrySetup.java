@@ -1,4 +1,4 @@
-package ch.hslu.vsk.logger.server.registry;
+package ch.hslu.vsk.logger.server.remote;
 
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
