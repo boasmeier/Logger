@@ -8,7 +8,8 @@
 package ch.hslu.vsk.logger.server;
 
 import ch.hslu.vsk.logger.common.FileHelper;
-import ch.hslu.vsk.logger.server.remote.LoggerImpl;
+import ch.hslu.vsk.logger.server.remote.LoggerRegistry;
+import ch.hslu.vsk.logger.server.remote.MessageSender;
 
 import java.io.File;
 import java.io.IOException;
@@ -37,7 +38,8 @@ public class LoggerServer {
         final int port = getPort();
 
         final Registry reg = LocateRegistry.getRegistry(Registry.REGISTRY_PORT);
-        final LoggerImpl logger = new LoggerImpl();
+        final MessageSender sender = new MessageSender();
+        final LoggerRegistry logger = new LoggerRegistry(sender);
         reg.bind("logger", logger);
 
         final ServerSocket listen = new ServerSocket(port);
@@ -47,7 +49,7 @@ public class LoggerServer {
         while (true) {
             try {
                 final Socket client = listen.accept();
-                final ServerMessageHandler handler = new ServerMessageHandler(client);
+                final ServerMessageHandler handler = new ServerMessageHandler(client, sender);
                 executor.execute(handler);
             } catch (Exception ex) {
                 LOGGER.severe(ex.getMessage());

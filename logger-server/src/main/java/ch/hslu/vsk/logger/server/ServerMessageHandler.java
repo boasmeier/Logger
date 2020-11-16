@@ -3,6 +3,7 @@ package ch.hslu.vsk.logger.server;
 import ch.hslu.vsk.logger.common.LogMessage;
 import ch.hslu.vsk.logger.server.persistency.LogPersistor;
 import ch.hslu.vsk.logger.server.persistency.StringPersistorAdapter;
+import ch.hslu.vsk.logger.server.remote.MessageSender;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -17,14 +18,17 @@ public class ServerMessageHandler implements Runnable {
 
     private final Socket client;
     private final LogPersistor persistor;
+    private final MessageSender sender;
 
     /**
      * Creates a message handler, the received data is forwarded to the StringPersistorAdapter.
      * @param client Connection to the remote client.
+     * @param sender
      */
-    ServerMessageHandler(final Socket client) {
+    ServerMessageHandler(final Socket client, MessageSender sender) {
         this.client = client;
         this.persistor = new StringPersistorAdapter();
+        this.sender = sender;
     }
 
     /**
@@ -33,10 +37,13 @@ public class ServerMessageHandler implements Runnable {
     @Override
     public void run() {
         try (InputStream in = client.getInputStream();
-                ObjectInputStream ois = new ObjectInputStream(in);) {
+                ObjectInputStream ois = new ObjectInputStream(in)) {
             while (true) {
                 final LogMessage message = (LogMessage) ois.readObject();
                 message.setReceived();
+                //fire
+
+                sender.send(message);
                 persistor.save(message);
             }
         } catch (ClassNotFoundException ex) {

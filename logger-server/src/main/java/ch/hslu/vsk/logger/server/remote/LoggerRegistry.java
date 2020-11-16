@@ -8,19 +8,18 @@ import ch.hslu.vsk.logger.common.RemoteLogger;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.ArrayList;
-import java.util.List;
 
-public class LoggerImpl extends UnicastRemoteObject implements RemoteLogger {
-    private final List<RemoteCallbackHandler> clients;
+public class LoggerRegistry extends UnicastRemoteObject implements RemoteLogger {
 
-    public LoggerImpl() throws RemoteException {
-        this.clients = new ArrayList<>();
+    private MessageSender sender;
+
+    public LoggerRegistry(MessageSender sender) throws RemoteException {
+        this.sender = sender;
     }
 
     @Override
     public void register(RemoteCallbackHandler client) throws RemoteException {
-        this.clients.add(client);
+        this.sender.addReceiver(client);
         client.handle(new LogMessage("Test", LogLevel.ERROR, "Hello World"));
     }
 }
