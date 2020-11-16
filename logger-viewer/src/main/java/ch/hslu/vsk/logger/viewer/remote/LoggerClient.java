@@ -12,19 +12,25 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.Arrays;
-import java.util.List;
+import java.util.Collections;
 import java.util.logging.Logger;
 
 public class LoggerClient extends UnicastRemoteObject implements RemoteCallbackHandler {
     private static final Logger LOGGER = Logger.getLogger(LoggerClient.class.getName());
-
-    private static String host;
+    private static final String REMOTE_OBJECT = "logger";
     private static RemoteLogger logger;
 
     public LoggerClient() throws RemoteException {
         super();
-        this.configure();
+        try {
+            String host = FileHelper
+                    .read("." + File.separator + "loggerViewerConfig", Collections.singletonList("host"))
+                    .get(0);
+            setRemoteConnection(host);
+        } catch (IOException ex) {
+            LOGGER.warning("Could not open server configuration file: " + ex.getMessage());
+            ex.printStackTrace();
+        }
     }
 
     @Override
@@ -38,20 +44,13 @@ public class LoggerClient extends UnicastRemoteObject implements RemoteCallbackH
      *
      * @return A port number.
      */
-    private void configure() {
+    private void setRemoteConnection(String host) {
         try {
-            List<String> arguments = FileHelper
-                    .read("." + File.separator + "loggerViewerConfig", Arrays.asList("host", "rmi_object"));
-            host = arguments.get(0);
-            String remoteObjectString = arguments.get(1);
             Registry reg = LocateRegistry.getRegistry(host);
-            logger = (RemoteLogger) reg.lookup(remoteObjectString);
+            logger = (RemoteLogger) reg.lookup(REMOTE_OBJECT);
             logger.register(this);
         } catch (NotBoundException | RemoteException ex) {
             LOGGER.severe(ex.getMessage());
-            ex.printStackTrace();
-        } catch (IOException ex) {
-            LOGGER.warning("Could not open server configuration file: " + ex.getMessage());
             ex.printStackTrace();
         }
     }
