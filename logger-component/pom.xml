@@ -79,6 +79,10 @@
             <version>1.0.1-SNAPSHOT</version>
             <type>jar</type>
         </dependency>
+        <dependency>
+            <groupId>ch.hslu.vsk20hs.g01</groupId>
+            <artifactId>g01-stringpersistor</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

@@ -8,9 +8,11 @@
 package ch.hslu.vsk.logger.component;
 
 import ch.hslu.vsk.logger.common.LogMessage;
+import ch.hslu.vsk.logger.common.ObjectHelper;
 import ch.hslu.vsk.stringpersistor.api.PersistedString;
 import ch.hslu.vsk.stringpersistor.api.StringPersistor;
 import ch.hslu.vsk.stringpersistor.impl.StringPersistorFile;
+
 import java.io.File;
 import java.time.Instant;
 import java.util.LinkedList;

@@ -2,11 +2,13 @@
  * Copyright(c) 2020 Boas Meier.
  * This software is the proprietary information of Tobias Heller.
  */
-package ch.hslu.vsk.logger.component;
+package ch.hslu.vsk.logger.common;
 
 import ch.hslu.vsk.logger.api.LogLevel;
 import ch.hslu.vsk.logger.common.LogMessage;
 import static org.assertj.core.api.Assertions.assertThat;
+
+import ch.hslu.vsk.logger.common.ObjectHelper;
 import org.junit.jupiter.api.Test;
 
 /**

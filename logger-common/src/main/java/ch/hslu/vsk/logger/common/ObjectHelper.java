@@ -5,7 +5,7 @@
  * Copyright(c) 2020 Boas Meier.
  * This software is the proprietary information of Tobias Heller.
  */
-package ch.hslu.vsk.logger.component;
+package ch.hslu.vsk.logger.common;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
