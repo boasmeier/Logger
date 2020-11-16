@@ -10,6 +10,7 @@ package ch.hslu.vsk.logger.server;
 import ch.hslu.vsk.logger.common.FileHelper;
 import ch.hslu.vsk.logger.server.remote.LoggerRegistry;
 import ch.hslu.vsk.logger.server.remote.MessageSender;
+import ch.hslu.vsk.logger.server.remote.RmiRegistry;
 
 import java.io.File;
 import java.io.IOException;
@@ -36,7 +37,7 @@ public class LoggerServer {
      */
     public static void main(final String[] args) throws IOException, AlreadyBoundException {
         final int port = getPort();
-
+        new Thread(new RmiRegistry()).start();
         final Registry reg = LocateRegistry.getRegistry(Registry.REGISTRY_PORT);
         final MessageSender sender = new MessageSender();
         final LoggerRegistry logger = new LoggerRegistry(sender);
