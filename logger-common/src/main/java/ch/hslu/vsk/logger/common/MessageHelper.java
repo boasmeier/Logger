@@ -16,6 +16,7 @@ import java.io.PrintStream;
  * @author Tobias Heller
  */
 public class MessageHelper {
+    private MessageHelper() {}
 
     /**
      * Returns a String for an exception that should be logged.
