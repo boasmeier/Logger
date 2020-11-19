@@ -12,12 +12,12 @@ import ch.hslu.vsk.logger.common.ObjectHelper;
 import ch.hslu.vsk.stringpersistor.api.PersistedString;
 import ch.hslu.vsk.stringpersistor.api.StringPersistor;
 import ch.hslu.vsk.stringpersistor.impl.StringPersistorFile;
-
 import java.io.File;
 import java.time.Instant;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
+import java.util.logging.Logger;
 
 /**
  * Code of Class ClientStringPersistorAdapter.
@@ -26,14 +26,15 @@ import java.util.Queue;
  */
 public final class ClientStringPersistorAdapter implements ClientLogPersistor {
 
+    private static final Logger LOG = Logger.getLogger(ClientStringPersistorAdapter.class.getName());
+
+    private static final String PATH = "." + File.separator + "tmp_logmessage_cache.log";
     private final StringPersistor persistor;
     private final File file;
-    private final Queue<File> files;
 
     public ClientStringPersistorAdapter() {
         this.persistor = new StringPersistorFile();
-        this.file = new File("." + File.separator + "tmp_logmessage_cache.log");
-        this.files = new LinkedList<>();
+        this.file = new File(PATH);
     }
 
     /**
@@ -44,7 +45,7 @@ public final class ClientStringPersistorAdapter implements ClientLogPersistor {
     @Override
     public final void save(final LogMessage message) {
         persistor.setFile(file);
-        System.out.println("Persist to file: " + file);
+        LOG.info("Persist to file: " + file);
         String objectAsString = ObjectHelper.objectToString(message);
         persistor.save(Instant.now(), objectAsString);
     }
@@ -57,7 +58,7 @@ public final class ClientStringPersistorAdapter implements ClientLogPersistor {
         while (!tmp.isEmpty()) {
             strings.offer((LogMessage) ObjectHelper.stringToObject(tmp.remove(0).getPayload()));
         }
-        file.delete();
+        LOG.info("Delete cache file (" + file + "): " + file.delete());
         return strings;
     }
 }

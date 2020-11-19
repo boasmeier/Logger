@@ -56,7 +56,6 @@ public class ClientMessageHandler implements Runnable {
             if (isConnected) {
                 send(message);
             } else {
-                LOG.info("Persist in File");
                 persistor.save(message);
                 reconnect();
             }
