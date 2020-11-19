@@ -4,9 +4,14 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.*;
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 
 class FileHelperTest {
     private static String filePath = "." + File.separator + "testConfig";
@@ -57,7 +62,8 @@ class FileHelperTest {
         arguments.put("port", "5050");
         arguments.put("name", "gameInstance1");
         createConfigFile(arguments);
-        List<String> actual = FileHelper.read(filePath, Arrays.asList("logLevel", "className", "serverIp", "port", "name"));
+        List<String> actual = FileHelper
+                .read(filePath, Arrays.asList("logLevel", "className", "serverIp", "port", "name"));
         assertEquals(actual.size(), 5);
         assertEquals(actual.get(0), "debug");
         assertEquals(actual.get(1), "ch.hslu.vsk.logger.component.VskLoggerSetup");
@@ -88,10 +94,11 @@ class FileHelperTest {
      */
     @Test
     void testReadFileNotFound() {
-        assertThrows(FileNotFoundException.class, () -> FileHelper.read(filePath, Arrays.asList("className", "port", "path")));
+        assertThrows(FileNotFoundException.class, () -> FileHelper
+                .read(filePath, Arrays.asList("className", "port", "path")));
     }
 
-    private void createConfigFile(Map<String, String> arguments) {
+    private void createConfigFile(HashMap<String, String> arguments) {
         File file = new File(filePath);
         try (BufferedWriter buffer = new BufferedWriter(new FileWriter(file, true))) {
             boolean createdNew = file.createNewFile();
@@ -99,8 +106,7 @@ class FileHelperTest {
                 try {
                     buffer.write(String.format("%s=%s", key, value));
                     buffer.newLine();
-                }
-                catch (IOException ex) {
+                } catch (IOException ex) {
                     System.out.println("An error occurred while writing: " + ex.getMessage());
                     ex.printStackTrace();
                 }

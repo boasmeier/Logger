@@ -9,7 +9,6 @@ import java.util.logging.Logger;
  * Registry-Tool. Es muss als erstes ausgeführt werden.
  */
 public final class RmiRegistry implements Runnable {
-
     private static final Logger LOGGER = Logger.getLogger(RmiRegistry.class.getName());
 
     @Override

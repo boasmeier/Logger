@@ -1,7 +1,5 @@
 package ch.hslu.vsk.logger.common;
 
-import ch.hslu.vsk.logger.common.RemoteCallbackHandler;
-
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
@@ -14,5 +12,5 @@ public interface RemoteLogger extends Remote {
      * @param client Callback receiver.
      * @throws RemoteException if remote methods fails.
      */
-    public void register(RemoteCallbackHandler client) throws RemoteException;
+    void register(RemoteCallbackHandler client) throws RemoteException;
 }

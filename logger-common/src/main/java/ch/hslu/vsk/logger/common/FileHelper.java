@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Properties;
 
 public class FileHelper {
-    private static final java.util.logging.Logger LOGGER = java.util.logging.Logger.getLogger(FileHelper.class.getName());
+    private FileHelper() {}
 
     /**
      * Read configuration file and return the value of the specified argument names.
@@ -16,7 +16,7 @@ public class FileHelper {
      * @param arguments The arguments to read in the file.
      * @return Returns a list containing all values of the given arguments.
      */
-    public static List<String> read(String path, List<String> arguments) throws IOException {
+    public static List<String> read(final String path, final List<String> arguments) throws IOException {
         try (FileReader reader = new FileReader(new File(path))) {
             Properties properties = new Properties();
             properties.load(reader);

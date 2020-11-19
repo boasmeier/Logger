@@ -18,7 +18,6 @@ import java.util.logging.Logger;
 public class LoggerClient extends UnicastRemoteObject implements RemoteCallbackHandler {
     private static final Logger LOGGER = Logger.getLogger(LoggerClient.class.getName());
     private static final String REMOTE_OBJECT = "logger";
-    private static RemoteLogger logger;
 
     public LoggerClient() throws RemoteException {
         super();
@@ -34,20 +33,18 @@ public class LoggerClient extends UnicastRemoteObject implements RemoteCallbackH
     }
 
     @Override
-    public void handle(LogMessage message) throws RemoteException {
+    public void handle(LogMessage message) {
         LOGGER.info(message.toString());
     }
 
     /**
      * Reads the port number from the loggerServerConfig file, which should be placed in the root directory of this
      * project. If no file or port specified, default port is 5050.
-     *
-     * @return A port number.
      */
     private void setRemoteConnection(String host) {
         try {
             Registry reg = LocateRegistry.getRegistry(host);
-            logger = (RemoteLogger) reg.lookup(REMOTE_OBJECT);
+            RemoteLogger logger = (RemoteLogger) reg.lookup(REMOTE_OBJECT);
             logger.register(this);
         } catch (NotBoundException | RemoteException ex) {
             LOGGER.severe(ex.getMessage());

@@ -22,19 +22,19 @@ import org.junit.jupiter.api.Test;
  *
  * @author Tobias Heller
  */
-public class LogMessageTest {
+class LogMessageTest {
 
-    public LogMessageTest() {
+    LogMessageTest() {
     }
 
     @Test
-    public void testGetUuid() {
+    void testGetUuid() {
         LogMessage m = new LogMessage("Test", LogLevel.INFO, "This is a message");
         assertThat(m.getUuid()).isNotNull();
     }
 
     @Test
-    public void testEquals() {
+    void testEquals() {
         LogMessage m = new LogMessage("Test", LogLevel.INFO, "This is a message");
         LogMessage m2 = new LogMessage("Test", LogLevel.DEBUG, "This is a message");
 
@@ -42,21 +42,21 @@ public class LogMessageTest {
     }
 
     @Test
-    public void testGetContent() {
+    void testGetContent() {
         String content = "This is a message";
         LogMessage m = new LogMessage("Test", LogLevel.INFO, content);
         assertThat(m.getMessage()).isEqualTo("This is a message");
     }
 
     @Test
-    public void testGetLogLevel() {
+    void testGetLogLevel() {
         String content = "This is a message";
         LogMessage m = new LogMessage("Test", LogLevel.INFO, content);
         assertThat(m.getLogLevel()).isEqualTo(LogLevel.INFO);
     }
 
     @Test
-    public void testGetCreatedAt() {
+    void testGetCreatedAt() {
         String content = "This is a message";
         Instant now = Instant.now();
         LogMessage m = new LogMessage("Test", LogLevel.INFO, content);
@@ -64,7 +64,7 @@ public class LogMessageTest {
     }
 
     @Test
-    public void testGetReceivedAt() {
+    void testGetReceivedAt() {
         String content = "This is a message";
         LogMessage m = new LogMessage("Test", LogLevel.INFO, content);
         assertThat(m.getReceivedAt()).isNull();
@@ -75,12 +75,12 @@ public class LogMessageTest {
     }
 
     @Test
-    public void testEqualsContract() {
+    void testEqualsContract() {
         EqualsVerifier.forClass(LogMessage.class).withIgnoredFields("receivedAt").verify();
     }
 
     @Test
-    public void testSerializable() throws IOException, ClassNotFoundException{
+    void testSerializable() throws IOException, ClassNotFoundException{
         LogMessage m1 = new LogMessage("Test", LogLevel.DEBUG, "This is a message");
         final ByteArrayOutputStream baos = new ByteArrayOutputStream();
         try(ObjectOutputStream oos = new ObjectOutputStream(baos)) {
@@ -97,7 +97,7 @@ public class LogMessageTest {
     }
     
     @Test
-    public void testGetLoggerName() {
+    void testGetLoggerName() {
         String content = "This is a message";
         LogMessage m = new LogMessage("Logger01", LogLevel.INFO, content);
         assertThat(m.getLoggerName()).isEqualTo("Logger01");

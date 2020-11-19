@@ -19,11 +19,9 @@ import java.util.logging.Logger;
  *
  * @author Tobias Heller
  */
-public class Connection {
-
+class Connection {
     private static final Logger LOG = Logger.getLogger(Connection.class.getName());
     private final BlockingQueue<LogMessage> messageQueue;
-    private Socket socket = null;
 
     /**
      * Creates a new Connection to the Logger-Server.
@@ -31,10 +29,10 @@ public class Connection {
      * @param host IP-Address of Server.
      * @param port Port-Address of Server application.
      */
-    public Connection(final String host, final int port) {
+    Connection(final String host, final int port) {
         this.messageQueue = new ArrayBlockingQueue<>(30);
         try {
-            socket = new Socket(host, port);
+            Socket socket = new Socket(host, port);
             var messageHandler = new ClientMessageHandler(socket, this.messageQueue);
             new Thread(messageHandler).start();
         } catch (IOException ex) {
@@ -46,13 +44,8 @@ public class Connection {
      * Adds a LogMessage to the Buffer.
      *
      * @param message LogMessage to send.
-     * @return Returns whether it was successful or not.
      */
-    public boolean send(final LogMessage message) {
-        return messageQueue.offer(message);
-    }
-
-    public boolean isClosed() {
-        return socket.isClosed();
+    void send(final LogMessage message) {
+        messageQueue.offer(message);
     }
 }

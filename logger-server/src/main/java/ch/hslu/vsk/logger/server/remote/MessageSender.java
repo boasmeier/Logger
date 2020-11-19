@@ -14,7 +14,7 @@ public class MessageSender {
         this.clients = new ArrayList<>();
     }
 
-    public void addReceiver(RemoteCallbackHandler client) {
+    void addReceiver(RemoteCallbackHandler client) {
         this.clients.add(client);
     }
 

@@ -29,7 +29,7 @@ public class ObjectHelper {
     /**
      * Converts an object to string.
      *
-     * @param object
+     * @param object the object to convert.
      * @return Serialized object as string.
      */
     public static String objectToString(Serializable object) {
@@ -45,7 +45,7 @@ public class ObjectHelper {
     /**
      * Converts a string to an object.
      *
-     * @param objectAsString
+     * @param objectAsString the string to convert
      * @return Deserialized object from string.
      */
     public static Serializable stringToObject(String objectAsString) {
@@ -55,7 +55,8 @@ public class ObjectHelper {
             object = (Serializable) ois.readObject();
             return object;
         } catch (final ClassNotFoundException ex) {
-            LOG.severe("ClassNotFoundException while deserialize object from string: " + ex.getLocalizedMessage());
+            LOG.severe("ClassNotFoundException while deserialize object from string: "
+                    + ex.getLocalizedMessage());
         } catch (final IOException ex) {
             LOG.severe("IOException while deserialize object from string: " + ex.getLocalizedMessage());
         }

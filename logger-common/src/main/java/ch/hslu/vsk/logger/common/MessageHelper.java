@@ -32,5 +32,4 @@ public class MessageHelper {
         }
         return message +  "- Exception:[" + baos.toString() + "]";
     }
-
 }
