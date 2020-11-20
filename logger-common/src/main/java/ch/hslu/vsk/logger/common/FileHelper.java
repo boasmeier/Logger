@@ -7,11 +7,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
-public class FileHelper {
-    private FileHelper() {}
+public final class FileHelper {
+
+    private FileHelper() {
+    }
 
     /**
      * Read configuration file and return the value of the specified argument names.
+     *
      * @param path The path to the configuration files.
      * @param arguments The arguments to read in the file.
      * @return Returns a list containing all values of the given arguments.

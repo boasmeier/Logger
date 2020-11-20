@@ -7,13 +7,18 @@ public enum FileType {
     Json;
 }
 
-class FileTypeExtension {
-    static FileType getEnum(String type) {
+final class FileTypeExtension {
+
+    static FileType getEnum(final String type) {
         switch (type) {
-            case "enhanced": return FileType.Enhanced;
-            case "xml": return FileType.Xml;
-            case "json": return FileType.Json;
-            default: return FileType.Basic;
+            case "enhanced":
+                return FileType.Enhanced;
+            case "xml":
+                return FileType.Xml;
+            case "json":
+                return FileType.Json;
+            default:
+                return FileType.Basic;
         }
     }
 }

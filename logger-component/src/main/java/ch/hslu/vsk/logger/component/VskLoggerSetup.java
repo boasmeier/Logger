@@ -8,7 +8,7 @@ package ch.hslu.vsk.logger.component;
 
 import ch.hslu.vsk.logger.api.*;
 
-public class VskLoggerSetup implements LoggerSetup {
+public final class VskLoggerSetup implements LoggerSetup {
 
     private LogLevel minimumLevel = LogLevel.INFO;
     private String name;
@@ -25,7 +25,7 @@ public class VskLoggerSetup implements LoggerSetup {
      * @return VskLogger instance
      */
     @Override
-    public Logger createLogger() {
+    public final Logger createLogger() {
         if (this.name == null || this.name.equals("")) {
             throw new IllegalStateException("Cannot create a logger without a name.");
         } else if (this.ipAddress == null || this.ipAddress.equals("")) {
@@ -43,12 +43,12 @@ public class VskLoggerSetup implements LoggerSetup {
      * set to INFO: messages of type DEBUG and TRACE won't be logged.
      */
     @Override
-    public void setMinimumLevel(final LogLevel minLevel) {
+    public final void setMinimumLevel(final LogLevel minLevel) {
         this.minimumLevel = minLevel;
     }
 
     @Override
-    public LogLevel getMinimumLevel() {
+    public final LogLevel getMinimumLevel() {
         return this.minimumLevel;
     }
 
@@ -57,12 +57,12 @@ public class VskLoggerSetup implements LoggerSetup {
      *
      * @param name The name of the logger. This will be written to the logging server together with the log message.
      */
-    public void setLoggerName(final String name) {
+    public final void setLoggerName(final String name) {
         this.name = name;
     }
 
     @Override
-    public String getLoggerName() {
+    public final String getLoggerName() {
         return this.name;
     }
 
@@ -72,7 +72,7 @@ public class VskLoggerSetup implements LoggerSetup {
      * @param ip The configured server IP address or hostname.
      */
     @Override
-    public void setServerIP(String ip) {
+    public final void setServerIP(String ip) {
         this.ipAddress = ip;
     }
 
@@ -82,7 +82,7 @@ public class VskLoggerSetup implements LoggerSetup {
      * @return The configured server IP address or hostname.
      */
     @Override
-    public String getServerIP() {
+    public final String getServerIP() {
         return this.ipAddress;
     }
 
@@ -92,7 +92,7 @@ public class VskLoggerSetup implements LoggerSetup {
      * @param port The port number on which the connection to the server should be made.
      */
     @Override
-    public void setServerPort(final int port) {
+    public final void setServerPort(final int port) {
         this.port = port;
     }
 
@@ -102,7 +102,7 @@ public class VskLoggerSetup implements LoggerSetup {
      * @return The port number on which the connection to the server should be made.
      */
     @Override
-    public int getServerPort() {
+    public final int getServerPort() {
         return this.port;
     }
 }

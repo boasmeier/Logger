@@ -4,7 +4,6 @@ import ch.hslu.vsk.logger.common.LogMessage;
 import ch.hslu.vsk.logger.server.persistency.LogPersistor;
 import ch.hslu.vsk.logger.server.persistency.StringPersistorAdapter;
 import ch.hslu.vsk.logger.server.remote.MessageSender;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
@@ -12,7 +11,7 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.util.logging.Logger;
 
-public class ServerMessageHandler implements Runnable {
+public final class ServerMessageHandler implements Runnable {
 
     private static final Logger LOGGER = Logger.getLogger(ServerMessageHandler.class.getName());
 
@@ -22,10 +21,11 @@ public class ServerMessageHandler implements Runnable {
 
     /**
      * Creates a message handler, the received data is forwarded to the StringPersistorAdapter.
+     *
      * @param client Connection to the remote client.
      * @param sender
      */
-    ServerMessageHandler(final Socket client, MessageSender sender) {
+    ServerMessageHandler(final Socket client, final MessageSender sender) {
         this.client = client;
         this.persistor = new StringPersistorAdapter();
         this.sender = sender;

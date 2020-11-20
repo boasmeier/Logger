@@ -35,38 +35,37 @@ public final class VskLogger implements Logger {
      * @param minLevel Minimum LogLevel.
      */
     @Override
-    public void setMinimumLevel(final LogLevel minLevel) {
+    public final void setMinimumLevel(final LogLevel minLevel) {
         this.minLevel = minLevel;
     }
 
     /**
      * Gets the minimum log level of Messages sent.
+     *
      * @return
      */
     @Override
-    public LogLevel getMinimumLevel() {
+    public final LogLevel getMinimumLevel() {
         return this.minLevel;
     }
 
     /**
-     * Sends a Message of LogLevel.TRACE if minLevel is equal or lower than
-     * TRACE.
+     * Sends a Message of LogLevel.TRACE if minLevel is equal or lower than TRACE.
      *
      * @param message Message to send.
      */
     @Override
-    public void trace(final String message) {
+    public final void trace(final String message) {
         createMessage(LogLevel.TRACE, message);
     }
 
     /**
-     * Sends a Message of LogLevel.DEBUG if minLevel is equal or lower than
-     * DEBUG.
+     * Sends a Message of LogLevel.DEBUG if minLevel is equal or lower than DEBUG.
      *
      * @param message Message to send.
      */
     @Override
-    public void debug(final String message) {
+    public final void debug(final String message) {
         createMessage(LogLevel.DEBUG, message);
     }
 
@@ -76,7 +75,7 @@ public final class VskLogger implements Logger {
      * @param message Message to send.
      */
     @Override
-    public void info(final String message) {
+    public final void info(final String message) {
         createMessage(LogLevel.INFO, message);
     }
 
@@ -86,29 +85,27 @@ public final class VskLogger implements Logger {
      * @param message Message to send.
      */
     @Override
-    public void warn(final String message) {
+    public final void warn(final String message) {
         createMessage(LogLevel.WARN, message);
     }
 
     /**
-     * Sends a Message of LogLevel.FATAL if minLevel is equal or lower than
-     * FATAL.
+     * Sends a Message of LogLevel.FATAL if minLevel is equal or lower than FATAL.
      *
      * @param message Message to send.
      */
     @Override
-    public void fatal(final String message, final Throwable exception) {
+    public final void fatal(final String message, final Throwable exception) {
         createMessage(LogLevel.FATAL, message, exception);
     }
 
     /**
-     * Sends a Message of LogLevel.ERROR if minLevel is equal or lower than
-     * ERROR.
+     * Sends a Message of LogLevel.ERROR if minLevel is equal or lower than ERROR.
      *
      * @param message Message to send.
      */
     @Override
-    public void error(final String message, final Throwable exception) {
+    public final void error(final String message, final Throwable exception) {
         createMessage(LogLevel.ERROR, message, exception);
     }
 

@@ -19,7 +19,8 @@ import java.util.logging.Logger;
  *
  * @author Tobias Heller
  */
-class Connection {
+final class Connection {
+
     private static final Logger LOG = Logger.getLogger(Connection.class.getName());
     private final BlockingQueue<LogMessage> messageQueue;
 
@@ -45,7 +46,7 @@ class Connection {
      *
      * @param message LogMessage to send.
      */
-    void send(final LogMessage message) {
+    final void send(final LogMessage message) {
         messageQueue.offer(message);
     }
 }

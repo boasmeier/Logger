@@ -11,7 +11,6 @@ import ch.hslu.vsk.logger.common.FileHelper;
 import ch.hslu.vsk.logger.server.remote.LoggerRegistry;
 import ch.hslu.vsk.logger.server.remote.MessageSender;
 import ch.hslu.vsk.logger.server.remote.RmiRegistry;
-
 import java.io.File;
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -25,7 +24,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.logging.Logger;
 
-public class LoggerServer {
+public final class LoggerServer {
+
     private static final Logger LOGGER = Logger.getLogger(LoggerServer.class.getName());
 
     /**

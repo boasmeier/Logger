@@ -15,25 +15,29 @@ import java.util.Date;
 
 /**
  * Code of Class FileSelector.
+ *
  * @author Thomas Goldenberger, Silvan Wenk
  */
-class FileSelector {
-    private String logFilePath;
+final class FileSelector {
+
+    private final String logFilePath;
 
     /**
      * Creates a selector which configures where the LogMessage should be saved.
+     *
      * @param logFilePath Path to store the log files.
      */
-    FileSelector(String logFilePath) {
+    FileSelector(final String logFilePath) {
         this.logFilePath = logFilePath;
     }
 
     /**
      * Creates a file to hstore te logs.
+     *
      * @param message LogMessage Object to store.
      * @return Returns a new file to store the LogMessage.
      */
-    File select(LogMessage message) {
+    final File select(final LogMessage message) {
         String source = message.getLoggerName();
         String filePath = this.logFilePath + File.separator + source + "_" + getDate() + "_persistor.log";
         return new File(filePath);

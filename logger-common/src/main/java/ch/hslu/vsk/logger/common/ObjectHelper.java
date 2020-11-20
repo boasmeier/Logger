@@ -22,7 +22,7 @@ import java.util.logging.Logger;
  * @author Boas Meier
  * @version JDK 12.0.2
  */
-public class ObjectHelper {
+public final class ObjectHelper {
 
     private static final Logger LOG = Logger.getLogger(ObjectHelper.class.getName());
 

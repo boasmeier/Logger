@@ -20,7 +20,7 @@ import java.util.logging.Logger;
  *
  * @author Tobias Heller
  */
-public class ClientMessageHandler implements Runnable {
+public final class ClientMessageHandler implements Runnable {
 
     private static final Logger LOG = Logger.getLogger(ClientMessageHandler.class.getName());
     private final ClientLogPersistor persistor;

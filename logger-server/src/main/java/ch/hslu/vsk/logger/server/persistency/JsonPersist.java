@@ -1,11 +1,11 @@
 package ch.hslu.vsk.logger.server.persistency;
 
 import ch.hslu.vsk.logger.common.LogMessage;
-import ch.hslu.vsk.stringpersistor.api.StringPersistor;
 
-public class JsonPersist implements Persistable {
+public final class JsonPersist implements Persistable {
+
     @Override
-    public String build(LogMessage message) {
+    public final String build(final LogMessage message) {
         throw new UnsupportedOperationException();
     }
 }

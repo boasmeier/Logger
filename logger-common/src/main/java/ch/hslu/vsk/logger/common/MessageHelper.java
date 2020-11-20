@@ -15,8 +15,10 @@ import java.io.PrintStream;
  *
  * @author Tobias Heller
  */
-public class MessageHelper {
-    private MessageHelper() {}
+public final class MessageHelper {
+
+    private MessageHelper() {
+    }
 
     /**
      * Returns a String for an exception that should be logged.
@@ -30,6 +32,6 @@ public class MessageHelper {
         try (PrintStream ps = new PrintStream(baos)) {
             exception.printStackTrace(ps);
         }
-        return message +  "- Exception:[" + baos.toString() + "]";
+        return message + "- Exception:[" + baos.toString() + "]";
     }
 }
