@@ -51,7 +51,7 @@ public final class ClientStringPersistorAdapter implements ClientLogPersistor {
     }
 
     @Override
-    public Queue<LogMessage> get() {
+    public final Queue<LogMessage> get() {
         Queue<LogMessage> strings = new LinkedList<>();
         persistor.setFile(file);
         List<PersistedString> tmp = persistor.get(Integer.MAX_VALUE);

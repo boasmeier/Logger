@@ -12,7 +12,6 @@ import java.io.Serializable;
 import java.time.Instant;
 import java.util.Objects;
 import java.util.UUID;
-import java.util.logging.Logger;
 
 /**
  * Code of Class LogMessage.
@@ -35,6 +34,7 @@ public final class LogMessage implements Serializable {
 
     /**
      * Constructor of class LogMessage. Automatically generates an unique UUID and stores the date and time of creation.
+     *
      * @param logLevel The LogLevel this message has.
      * @param loggerName The Name of the logger from where the Message was created.
      * @param message The actual message that should be stored.
@@ -47,50 +47,50 @@ public final class LogMessage implements Serializable {
         this.createdAt = Instant.now();
     }
 
-    public UUID getUuid() {
+    public final UUID getUuid() {
         return uuid;
     }
 
-    public String getMessage() {
+    public final String getMessage() {
         return message;
     }
 
-    public LogLevel getLogLevel() {
+    public final LogLevel getLogLevel() {
         return logLevel;
     }
 
-    public Instant getCreatedAt() {
+    public final Instant getCreatedAt() {
         return createdAt;
     }
 
-    public Instant getReceivedAt() {
+    public final Instant getReceivedAt() {
         return receivedAt;
     }
 
-    public String getLoggerName() {
+    public final String getLoggerName() {
         return loggerName;
     }
 
     /**
      * Should be called when server receives message.
      */
-    public void setReceived() {
+    public final void setReceived() {
         receivedAt = Instant.now();
     }
 
     @Override
-    public String toString() {
+    public final String toString() {
         return "Message{" + "uuid=" + uuid + ", message=" + message + ", logLevel=" + logLevel + ", createdAt="
                 + createdAt + ", receivedAt=" + receivedAt + '}';
     }
 
     @Override
-    public int hashCode() {
+    public final int hashCode() {
         return Objects.hash(uuid, message, logLevel, createdAt, loggerName);
     }
 
     @Override
-    public boolean equals(final Object obj) {
+    public final boolean equals(final Object obj) {
         if (this == obj) {
             return true;
         }
@@ -98,10 +98,10 @@ public final class LogMessage implements Serializable {
             return false;
         }
         final LogMessage other = (LogMessage) obj;
-        return Objects.equals(this.uuid, other.uuid)
-                && Objects.equals(this.message, other.message)
-                && Objects.equals(this.logLevel, other.logLevel)
-                && Objects.equals(this.createdAt, other.createdAt)
-                && Objects.equals(this.loggerName, other.loggerName);
+        return Objects.equals(this.uuid, other.getUuid())
+                && Objects.equals(this.message, other.getMessage())
+                && Objects.equals(this.logLevel, other.getLogLevel())
+                && Objects.equals(this.createdAt, other.getCreatedAt())
+                && Objects.equals(this.loggerName, other.getLoggerName());
     }
 }
