@@ -26,13 +26,16 @@ public final class ObjectHelper {
 
     private static final Logger LOG = Logger.getLogger(ObjectHelper.class.getName());
 
+    private ObjectHelper() {
+    }
+
     /**
      * Converts an object to string.
      *
      * @param object the object to convert.
      * @return Serialized object as string.
      */
-    public static String objectToString(Serializable object) {
+    public static String objectToString(final Serializable object) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         try (ObjectOutputStream oos = new ObjectOutputStream(baos)) {
             oos.writeObject(object);
@@ -48,7 +51,7 @@ public final class ObjectHelper {
      * @param objectAsString the string to convert
      * @return Deserialized object from string.
      */
-    public static Serializable stringToObject(String objectAsString) {
+    public static Serializable stringToObject(final String objectAsString) {
         final byte[] data = Base64.getDecoder().decode(objectAsString);
         Serializable object;
         try (ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(data))) {

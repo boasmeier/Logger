@@ -1,20 +1,22 @@
 package ch.hslu.vsk.logger.common;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Test;
-
-import java.io.*;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-
+import org.junit.jupiter.api.AfterEach;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-
+import org.junit.jupiter.api.Test;
 
 class FileHelperTest {
-    private static String filePath = "." + File.separator + "testConfig";
+
+    private static final String PATH = "." + File.separator + "testConfig";
 
     @AfterEach
     void tearDown() {
@@ -31,7 +33,7 @@ class FileHelperTest {
         arguments.put("key2", "value2");
         arguments.put("key3", "value3");
         createConfigFile(arguments);
-        List<String> actual = FileHelper.read(filePath, Arrays.asList("key1", "key3"));
+        List<String> actual = FileHelper.read(PATH, Arrays.asList("key1", "key3"));
         assertEquals(actual.size(), 2);
         assertEquals(actual.get(0), "value1");
         assertEquals(actual.get(1), "value3");
@@ -44,7 +46,7 @@ class FileHelperTest {
     void testReadEmpty() throws IOException {
         var arguments = new HashMap<String, String>();
         createConfigFile(arguments);
-        List<String> actual = FileHelper.read(filePath, Arrays.asList("key1", "key3"));
+        List<String> actual = FileHelper.read(PATH, Arrays.asList("key1", "key3"));
         assertEquals(actual.size(), 2);
         assertNull(actual.get(0));
         assertNull(actual.get(1));
@@ -63,7 +65,7 @@ class FileHelperTest {
         arguments.put("name", "gameInstance1");
         createConfigFile(arguments);
         List<String> actual = FileHelper
-                .read(filePath, Arrays.asList("logLevel", "className", "serverIp", "port", "name"));
+                .read(PATH, Arrays.asList("logLevel", "className", "serverIp", "port", "name"));
         assertEquals(actual.size(), 5);
         assertEquals(actual.get(0), "debug");
         assertEquals(actual.get(1), "ch.hslu.vsk.logger.component.VskLoggerSetup");
@@ -82,7 +84,7 @@ class FileHelperTest {
         arguments.put("className", "ch.hslu.vsk.logger.server.EnhancedPersistor");
         arguments.put("path", "path/to/file.txt");
         createConfigFile(arguments);
-        List<String> actual = FileHelper.read(filePath, Arrays.asList("className", "port", "path"));
+        List<String> actual = FileHelper.read(PATH, Arrays.asList("className", "port", "path"));
         assertEquals(actual.size(), 3);
         assertEquals(actual.get(0), "ch.hslu.vsk.logger.server.EnhancedPersistor");
         assertEquals(actual.get(1), "5050");
@@ -94,14 +96,15 @@ class FileHelperTest {
      */
     @Test
     void testReadFileNotFound() {
-        assertThrows(FileNotFoundException.class, () -> FileHelper
-                .read(filePath, Arrays.asList("className", "port", "path")));
+        FileNotFoundException ex = assertThrows(FileNotFoundException.class, () -> FileHelper
+                .read(PATH, Arrays.asList("className", "port", "path")));
+        assertEquals(PATH + " (The system cannot find the file specified)", ex.getMessage());
     }
 
-    private void createConfigFile(HashMap<String, String> arguments) {
-        File file = new File(filePath);
+    private void createConfigFile(final HashMap<String, String> arguments) {
+        File file = new File(PATH);
         try (BufferedWriter buffer = new BufferedWriter(new FileWriter(file, true))) {
-            boolean createdNew = file.createNewFile();
+            //boolean createdNew = file.createNewFile();
             arguments.forEach((key, value) -> {
                 try {
                     buffer.write(String.format("%s=%s", key, value));
@@ -119,6 +122,6 @@ class FileHelperTest {
 
     private void deleteConfigFile() {
         File file = new File("." + File.separator + "testConfig");
-        boolean result = file.delete();
+        file.delete();
     }
 }

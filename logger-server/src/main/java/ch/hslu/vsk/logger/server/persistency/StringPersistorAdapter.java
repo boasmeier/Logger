@@ -1,7 +1,7 @@
 /*
  * StringPersistorAdapter.java
  * Created on 22.10.2020
- * 
+ *
  * Copyright(c) 2020 Tobias Heller.
  * This software is the proprietary information of Tobias Heller.
  */
@@ -22,16 +22,18 @@ import java.util.logging.Logger;
 
 /**
  * Code of Class StringPersistorAdapter.
+ *
  * @author Tobias Heller, Silvan Wenk
  */
 public final class StringPersistorAdapter implements LogPersistor {
+
     private static final Logger LOGGER = Logger.getLogger(LoggerServer.class.getName());
     private static final String DEFAULT_PATH = System.getProperty("user.home") + "Desktop";
     private static final String DEFAULT_FILE_TYPE = "basic";
 
     private Persistable persistable;
-    private StringPersistor persistor;
-    private FileSelector selector;
+    private final StringPersistor persistor;
+    private final FileSelector selector;
 
     /**
      * Creates and configures a StringPersistorAdapter.
@@ -45,10 +47,11 @@ public final class StringPersistorAdapter implements LogPersistor {
 
     /**
      * Store a message to the StringPersistor.
+     *
      * @param message LogMessage Object to store.
      */
     @Override
-    public final void save(final LogMessage message) {
+    public void save(final LogMessage message) {
         File file = selector.select(message);
         persistor.setFile(file);
         persistor.save(Instant.now(), persistable.build(message));
@@ -56,6 +59,7 @@ public final class StringPersistorAdapter implements LogPersistor {
 
     /**
      * Reads the file type and log path from the server configuration file.
+     *
      * @return If exception or arguments not found the default configuration is returned.
      */
     private List<String> getConfigurationArguments() {
@@ -76,14 +80,23 @@ public final class StringPersistorAdapter implements LogPersistor {
 
     /**
      * Sets the correct implementation strategy.
+     *
      * @param type Argument of the server configuration file.
      */
     private void setPersistableStrategy(final String type) {
-        switch(FileTypeExtension.getEnum(type)) {
-            case Enhanced: this.persistable = new EnhancedPersist(); break;
-            case Xml: this.persistable = new XmlPersist(); break;
-            case Json: this.persistable = new JsonPersist(); break;
-            default: this.persistable = new BasicPersist(); break;
+        switch (FileTypeExtension.getEnum(type)) {
+            case Enhanced:
+                this.persistable = new EnhancedPersist();
+                break;
+            case Xml:
+                this.persistable = new XmlPersist();
+                break;
+            case Json:
+                this.persistable = new JsonPersist();
+                break;
+            default:
+                this.persistable = new BasicPersist();
+                break;
         }
     }
 }

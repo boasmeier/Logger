@@ -22,12 +22,12 @@ public interface ClientLogPersistor {
      *
      * @param message The message to save.
      */
-    public void save(final LogMessage message);
+    void save(LogMessage message);
 
     /**
      * Returns all missed messages.
      *
      * @return A list of the PersistedStrings
      */
-    public Queue<LogMessage> get();
+    Queue<LogMessage> get();
 }

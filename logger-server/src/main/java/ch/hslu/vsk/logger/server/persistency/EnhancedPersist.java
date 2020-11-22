@@ -12,7 +12,7 @@ public final class EnhancedPersist implements Persistable {
      * [RecievedAt]
      */
     @Override
-    public final String build(final LogMessage message) {
+    public String build(final LogMessage message) {
         return String.format(
                 "%s | Message: %s, Created: %s, Received: %s",
                 message.getLogLevel(),

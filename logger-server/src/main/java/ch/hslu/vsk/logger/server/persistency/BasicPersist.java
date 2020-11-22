@@ -11,7 +11,7 @@ public final class BasicPersist implements Persistable {
      * @return toString() of LogMessage
      */
     @Override
-    public final String build(final LogMessage message) {
+    public String build(final LogMessage message) {
         return message.toString();
     }
 }

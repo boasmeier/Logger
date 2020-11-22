@@ -26,7 +26,7 @@ public final class ClientMessageHandler implements Runnable {
     private final ClientLogPersistor persistor;
 
     private Socket socket;
-    boolean isConnected = true;
+    private boolean isConnected;
     private final BlockingQueue<LogMessage> messageQueue;
 
     private LogMessage message = null;
@@ -42,6 +42,7 @@ public final class ClientMessageHandler implements Runnable {
         this.socket = socket;
         this.messageQueue = queue;
         this.persistor = new ClientStringPersistorAdapter();
+        this.isConnected = true;
     }
 
     @Override
@@ -89,14 +90,14 @@ public final class ClientMessageHandler implements Runnable {
         }
     }
 
-    private void send(final LogMessage message) {
+    private void send(final LogMessage msg) {
         try {
-            ous.writeObject(message);
-            LOG.info("Send: " + message);
+            ous.writeObject(msg);
+            LOG.info("Send: " + msg);
         } catch (IOException ex) {
             LOG.severe("IOException while sending Log-Message: " + ex.getLocalizedMessage());
             LOG.info("Persist in File");
-            persistor.save(message);
+            persistor.save(msg);
             isConnected = false;
         }
     }

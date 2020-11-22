@@ -47,50 +47,50 @@ public final class LogMessage implements Serializable {
         this.createdAt = Instant.now();
     }
 
-    public final UUID getUuid() {
+    public UUID getUuid() {
         return uuid;
     }
 
-    public final String getMessage() {
+    public String getMessage() {
         return message;
     }
 
-    public final LogLevel getLogLevel() {
+    public LogLevel getLogLevel() {
         return logLevel;
     }
 
-    public final Instant getCreatedAt() {
+    public Instant getCreatedAt() {
         return createdAt;
     }
 
-    public final Instant getReceivedAt() {
+    public Instant getReceivedAt() {
         return receivedAt;
     }
 
-    public final String getLoggerName() {
+    public String getLoggerName() {
         return loggerName;
     }
 
     /**
      * Should be called when server receives message.
      */
-    public final void setReceived() {
+    public void setReceived() {
         receivedAt = Instant.now();
     }
 
     @Override
-    public final String toString() {
+    public String toString() {
         return "Message{" + "uuid=" + uuid + ", message=" + message + ", logLevel=" + logLevel + ", createdAt="
                 + createdAt + ", receivedAt=" + receivedAt + '}';
     }
 
     @Override
-    public final int hashCode() {
+    public int hashCode() {
         return Objects.hash(uuid, message, logLevel, createdAt, loggerName);
     }
 
     @Override
-    public final boolean equals(final Object obj) {
+    public boolean equals(final Object obj) {
         if (this == obj) {
             return true;
         }

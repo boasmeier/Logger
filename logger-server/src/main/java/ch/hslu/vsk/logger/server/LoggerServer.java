@@ -28,6 +28,9 @@ public final class LoggerServer {
 
     private static final Logger LOGGER = Logger.getLogger(LoggerServer.class.getName());
 
+    private LoggerServer() {
+    }
+
     /**
      * Runs the logger server application, reads the configuration and persists the logs with the specified log file
      * type.

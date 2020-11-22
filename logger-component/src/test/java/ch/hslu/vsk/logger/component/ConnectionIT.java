@@ -9,7 +9,6 @@ package ch.hslu.vsk.logger.component;
 
 import ch.hslu.vsk.logger.api.LogLevel;
 import ch.hslu.vsk.logger.common.LogMessage;
-import java.util.logging.Logger;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -18,8 +17,7 @@ import org.junit.jupiter.api.Test;
  */
 public class ConnectionIT {
 
-    private static final Logger LOG = Logger.getLogger(ConnectionIT.class.getName());
-
+    //private static final Logger LOG = Logger.getLogger(ConnectionIT.class.getName());
     /**
      * Test to simulate game instance and test disconnection scenarios with server. TODO: Full automation
      */

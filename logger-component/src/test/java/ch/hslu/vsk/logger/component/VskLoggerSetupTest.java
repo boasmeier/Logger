@@ -2,18 +2,20 @@
  * VskLoggerSetup.java
  * Created on 05.10.2020
  * <p>
- * Copyright(c) 2020 Tobias Heller.
- * This software is the proprietary information of Tobias Heller.
+ * Copyright(c) 2020 Tobias Heller. This software is the proprietary information of Tobias Heller.
  */
 package ch.hslu.vsk.logger.component;
 
 import ch.hslu.vsk.logger.api.LogLevel;
 import ch.hslu.vsk.logger.api.LoggerSetup;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
-
+//import static org.junit.jupiter.api.Assertions.*;
 class VskLoggerSetupTest {
+
     private static LoggerSetup setup;
     private static final String HOST = "127.0.0.1";
     private static final int PORT = 5050;

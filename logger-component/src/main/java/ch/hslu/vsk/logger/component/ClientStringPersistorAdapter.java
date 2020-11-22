@@ -43,7 +43,7 @@ public final class ClientStringPersistorAdapter implements ClientLogPersistor {
      * @param message LogMessage Object to store.
      */
     @Override
-    public final void save(final LogMessage message) {
+    public void save(final LogMessage message) {
         persistor.setFile(file);
         LOG.info("Persist to file: " + file);
         String objectAsString = ObjectHelper.objectToString(message);
@@ -51,7 +51,7 @@ public final class ClientStringPersistorAdapter implements ClientLogPersistor {
     }
 
     @Override
-    public final Queue<LogMessage> get() {
+    public Queue<LogMessage> get() {
         Queue<LogMessage> strings = new LinkedList<>();
         persistor.setFile(file);
         List<PersistedString> tmp = persistor.get(Integer.MAX_VALUE);

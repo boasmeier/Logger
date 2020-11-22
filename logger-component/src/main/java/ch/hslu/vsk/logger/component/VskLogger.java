@@ -20,8 +20,8 @@ import ch.hslu.vsk.logger.common.MessageHelper;
 public final class VskLogger implements Logger {
 
     private LogLevel minLevel;
-    private String name;
-    private Connection serverConnection;
+    private final String name;
+    private final Connection serverConnection;
 
     VskLogger(final LogLevel minLevel, final String name, final Connection conn) {
         this.minLevel = minLevel;
@@ -35,7 +35,7 @@ public final class VskLogger implements Logger {
      * @param minLevel Minimum LogLevel.
      */
     @Override
-    public final void setMinimumLevel(final LogLevel minLevel) {
+    public void setMinimumLevel(final LogLevel minLevel) {
         this.minLevel = minLevel;
     }
 
@@ -45,7 +45,7 @@ public final class VskLogger implements Logger {
      * @return
      */
     @Override
-    public final LogLevel getMinimumLevel() {
+    public LogLevel getMinimumLevel() {
         return this.minLevel;
     }
 
@@ -55,7 +55,7 @@ public final class VskLogger implements Logger {
      * @param message Message to send.
      */
     @Override
-    public final void trace(final String message) {
+    public void trace(final String message) {
         createMessage(LogLevel.TRACE, message);
     }
 
@@ -65,7 +65,7 @@ public final class VskLogger implements Logger {
      * @param message Message to send.
      */
     @Override
-    public final void debug(final String message) {
+    public void debug(final String message) {
         createMessage(LogLevel.DEBUG, message);
     }
 
@@ -75,7 +75,7 @@ public final class VskLogger implements Logger {
      * @param message Message to send.
      */
     @Override
-    public final void info(final String message) {
+    public void info(final String message) {
         createMessage(LogLevel.INFO, message);
     }
 
@@ -85,7 +85,7 @@ public final class VskLogger implements Logger {
      * @param message Message to send.
      */
     @Override
-    public final void warn(final String message) {
+    public void warn(final String message) {
         createMessage(LogLevel.WARN, message);
     }
 
@@ -93,9 +93,10 @@ public final class VskLogger implements Logger {
      * Sends a Message of LogLevel.FATAL if minLevel is equal or lower than FATAL.
      *
      * @param message Message to send.
+     * @param exception Exception
      */
     @Override
-    public final void fatal(final String message, final Throwable exception) {
+    public void fatal(final String message, final Throwable exception) {
         createMessage(LogLevel.FATAL, message, exception);
     }
 
@@ -103,9 +104,10 @@ public final class VskLogger implements Logger {
      * Sends a Message of LogLevel.ERROR if minLevel is equal or lower than ERROR.
      *
      * @param message Message to send.
+     * @param exception Exception
      */
     @Override
-    public final void error(final String message, final Throwable exception) {
+    public void error(final String message, final Throwable exception) {
         createMessage(LogLevel.ERROR, message, exception);
     }
 

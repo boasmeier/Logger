@@ -37,7 +37,7 @@ final class FileSelector {
      * @param message LogMessage Object to store.
      * @return Returns a new file to store the LogMessage.
      */
-    final File select(final LogMessage message) {
+    File select(final LogMessage message) {
         String source = message.getLoggerName();
         String filePath = this.logFilePath + File.separator + source + "_" + getDate() + "_persistor.log";
         return new File(filePath);
