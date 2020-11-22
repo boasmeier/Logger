@@ -27,7 +27,7 @@ public final class MessageHelper {
      * @param exception Exception to log.
      * @return Exception as a String.
      */
-    public static String ExceptionMessageToString(final String message, final Throwable exception) {
+    public static String exceptionMessageToString(final String message, final Throwable exception) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         try (PrintStream ps = new PrintStream(baos)) {
             exception.printStackTrace(ps);

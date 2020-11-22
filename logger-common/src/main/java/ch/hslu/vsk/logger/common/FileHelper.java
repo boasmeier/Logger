@@ -3,6 +3,7 @@ package ch.hslu.vsk.logger.common;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -21,7 +22,7 @@ public final class FileHelper {
      * @throws java.io.IOException
      */
     public static List<String> read(final String path, final List<String> arguments) throws IOException {
-        try (FileReader reader = new FileReader(new File(path))) {
+        try (FileReader reader = new FileReader(new File(path), Charset.forName("UTF-8"))) {
             Properties properties = new Properties();
             properties.load(reader);
             List<String> data = new ArrayList<>(arguments.size());

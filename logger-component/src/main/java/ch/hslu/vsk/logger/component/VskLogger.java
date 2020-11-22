@@ -119,7 +119,7 @@ public final class VskLogger implements Logger {
     }
 
     private void createMessage(final LogLevel logLevel, final String content, final Throwable ex) {
-        createMessage(logLevel, MessageHelper.ExceptionMessageToString(content, ex));
+        createMessage(logLevel, MessageHelper.exceptionMessageToString(content, ex));
     }
 
     private boolean shouldBeSent(final LogLevel logLevel) {

@@ -47,6 +47,6 @@ final class Connection {
      * @param message LogMessage to send.
      */
     void send(final LogMessage message) {
-        messageQueue.offer(message);
+        messageQueue.add(message);
     }
 }

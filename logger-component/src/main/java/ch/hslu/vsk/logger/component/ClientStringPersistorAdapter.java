@@ -56,7 +56,8 @@ public final class ClientStringPersistorAdapter implements ClientLogPersistor {
         persistor.setFile(file);
         List<PersistedString> tmp = persistor.get(Integer.MAX_VALUE);
         while (!tmp.isEmpty()) {
-            strings.offer((LogMessage) ObjectHelper.stringToObject(tmp.remove(0).getPayload()));
+            LogMessage msg = (LogMessage) ObjectHelper.stringToObject(tmp.remove(0).getPayload());
+            strings.add(msg);
         }
         LOG.info("Delete cache file (" + file + "): " + file.delete());
         return strings;
