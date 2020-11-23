@@ -51,6 +51,7 @@ public final class ClientMessageHandler implements Runnable {
 
     @Override
     public void run() {
+        this.fireDisconnectionEvent();
         while (true) {
             try {
                 message = messageQueue.take();
