@@ -14,6 +14,10 @@ import ch.hslu.vsk.stringpersistor.api.StringPersistor;
 import ch.hslu.vsk.stringpersistor.impl.StringPersistorFile;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.InvalidPathException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -67,11 +71,22 @@ public final class StringPersistorAdapter implements LogPersistor {
         try {
             var args = FileHelper.read("loggerServerConfig", Arrays.asList("file_type", "path"));
             arguments.add(args.get(0) == null ? DEFAULT_FILE_TYPE : args.get(0));
-            arguments.add(args.get(1) == null ? DEFAULT_PATH : args.get(1));
+            String pathArgument = args.get(1);
+            try {
+                if (pathArgument == null || pathArgument.equals("") || Files.notExists(Paths.get(pathArgument))) {
+                    LOGGER.warning("The specified path for the log files does not exist, " +
+                            "switching to user's desktop.");
+                    throw new InvalidPathException("", "");
+                }
+                arguments.add(pathArgument);
+            } catch (InvalidPathException ex) {
+                arguments.add(DEFAULT_PATH);
+            }
             return arguments;
-        } catch (IOException ex) {
+        } catch (IndexOutOfBoundsException | IOException ex) {
             LOGGER.warning("Could not open server configuration file: " + ex.getMessage());
             ex.printStackTrace();
+            arguments = new ArrayList<>();
             arguments.add(DEFAULT_FILE_TYPE);
             arguments.add(DEFAULT_PATH);
             return arguments;
