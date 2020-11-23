@@ -85,7 +85,6 @@ public final class StringPersistorAdapter implements LogPersistor {
             return arguments;
         } catch (IndexOutOfBoundsException | IOException ex) {
             LOGGER.warning("Could not open server configuration file: " + ex.getMessage());
-            ex.printStackTrace();
             arguments = new ArrayList<>();
             arguments.add(DEFAULT_FILE_TYPE);
             arguments.add(DEFAULT_PATH);

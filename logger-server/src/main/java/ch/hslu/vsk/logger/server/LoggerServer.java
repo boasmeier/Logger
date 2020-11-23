@@ -76,7 +76,6 @@ public final class LoggerServer {
             return portArgument == null ? 5050 : Integer.parseInt(arguments.get(0));
         } catch (IOException ex) {
             LOGGER.warning("Could not open server configuration file: " + ex.getMessage());
-            ex.printStackTrace();
             return 5050;
         }
     }
