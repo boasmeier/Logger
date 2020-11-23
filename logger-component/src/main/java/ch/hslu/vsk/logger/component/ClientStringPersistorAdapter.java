@@ -14,6 +14,7 @@ import ch.hslu.vsk.stringpersistor.api.StringPersistor;
 import ch.hslu.vsk.stringpersistor.impl.StringPersistorFile;
 import java.io.File;
 import java.time.Instant;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
@@ -60,6 +61,7 @@ public final class ClientStringPersistorAdapter implements ClientLogPersistor {
             strings.add(msg);
         }
         LOG.info("Delete cache file (" + file + "): " + file.delete());
+        Collections.reverse((List<LogMessage>) strings);
         return strings;
     }
 }
