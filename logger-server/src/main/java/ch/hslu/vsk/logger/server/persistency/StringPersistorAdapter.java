@@ -28,7 +28,7 @@ import java.util.logging.Logger;
 public final class StringPersistorAdapter implements LogPersistor {
 
     private static final Logger LOGGER = Logger.getLogger(LoggerServer.class.getName());
-    private static final String DEFAULT_PATH = System.getProperty("user.home") + "Desktop";
+    private static final String DEFAULT_PATH = System.getProperty("user.home") + File.separator + "Desktop";
     private static final String DEFAULT_FILE_TYPE = "basic";
 
     private Persistable persistable;
