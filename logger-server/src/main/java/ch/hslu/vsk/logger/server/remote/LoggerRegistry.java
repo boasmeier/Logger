@@ -9,6 +9,8 @@ import java.rmi.server.UnicastRemoteObject;
 
 public final class LoggerRegistry extends UnicastRemoteObject implements RemoteLogger {
 
+    private static final long serialVersionUID = 20201123L;
+
     private final MessageSender sender;
 
     public LoggerRegistry(final MessageSender sender) throws RemoteException {
