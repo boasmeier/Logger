@@ -96,7 +96,7 @@ public final class ClientMessageHandler implements Runnable {
             LOG.info("Send: " + msg);
         } catch (IOException ex) {
             LOG.severe("IOException while sending Log-Message: " + ex.getLocalizedMessage());
-            LOG.info("Persist in File");
+            LOG.info("Persist in file");
             persistor.save(msg);
             isConnected = false;
         }
