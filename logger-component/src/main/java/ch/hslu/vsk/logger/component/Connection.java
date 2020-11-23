@@ -19,10 +19,13 @@ import java.util.logging.Logger;
  *
  * @author Tobias Heller
  */
-final class Connection {
+final class Connection implements DisconnectionListener {
 
     private static final Logger LOG = Logger.getLogger(Connection.class.getName());
     private final BlockingQueue<LogMessage> messageQueue;
+    private final ClientMessageHandler messageHandler;
+    private final String host;
+    private final int port;
 
     /**
      * Creates a new Connection to the Logger-Server.
@@ -32,13 +35,16 @@ final class Connection {
      */
     Connection(final String host, final int port) {
         this.messageQueue = new ArrayBlockingQueue<>(30);
-        try {
-            Socket socket = new Socket(host, port);
-            var messageHandler = new ClientMessageHandler(socket, this.messageQueue);
-            new Thread(messageHandler).start();
-        } catch (IOException ex) {
-            LOG.severe(String.format("IOException (Socket %s:%s): %s", host, port, ex.getLocalizedMessage()));
-        }
+        this.host = host;
+        this.port = port;
+        messageHandler = new ClientMessageHandler(null, this.messageQueue);
+        startMessageHandler();
+    }
+
+    private void startMessageHandler() {
+        messageHandler.addDisconnectionListener(this);
+        new Thread(messageHandler).start();
+        connect(this.host, this.port);
     }
 
     /**
@@ -48,5 +54,19 @@ final class Connection {
      */
     void send(final LogMessage message) {
         messageQueue.add(message);
+    }
+
+    private void connect(final String host, final int port) {
+        try {
+            messageHandler.setSocket(new Socket(host, port));
+            LOG.info("Connected!");
+        } catch (IOException ex) {
+            LOG.severe(String.format("IOException (Socket %s:%s): %s", host, port, ex.getLocalizedMessage()));
+        }
+    }
+
+    @Override
+    public void reconnect() {
+        connect(host, port);
     }
 }

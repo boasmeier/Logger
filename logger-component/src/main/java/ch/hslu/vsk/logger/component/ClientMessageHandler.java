@@ -11,6 +11,8 @@ import ch.hslu.vsk.logger.common.LogMessage;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.BlockingQueue;
 import java.util.logging.Logger;
@@ -32,6 +34,8 @@ public final class ClientMessageHandler implements Runnable {
     private LogMessage message = null;
     private ObjectOutputStream ous = null;
 
+    private final List<DisconnectionListener> listeners = new ArrayList<>();
+
     /**
      * Konstruktor der Klasse Message Handler.
      *
@@ -42,12 +46,11 @@ public final class ClientMessageHandler implements Runnable {
         this.socket = socket;
         this.messageQueue = queue;
         this.persistor = new ClientStringPersistorAdapter();
-        this.isConnected = true;
+        this.isConnected = this.socket != null;
     }
 
     @Override
     public void run() {
-        setObjectOutputStream();
         while (true) {
             try {
                 message = messageQueue.take();
@@ -58,21 +61,38 @@ public final class ClientMessageHandler implements Runnable {
                 send(message);
             } else {
                 persistor.save(message);
-                reconnect();
+                this.fireDisconnectionEvent();
             }
         }
     }
 
-    private void reconnect() {
-        try {
-            socket = new Socket(socket.getInetAddress(), socket.getPort());
-            setObjectOutputStream();
-            LOG.info("Reconnected!");
-            isConnected = true;
-            sendMissedMessages();
-        } catch (IOException ex) {
-            LOG.severe("Reconnection failed: " + ex.getLocalizedMessage());
+    public void setSocket(final Socket socket) {
+        this.socket = socket;
+        setObjectOutputStream();
+        sendMissedMessages();
+        isConnected = true;
+    }
+
+    public void addDisconnectionListener(DisconnectionListener listener) {
+        if (listener != null) {
+            this.listeners.add(listener);
+        } else {
+            throw new NullPointerException("Listener mustn't be null!");
         }
+    }
+
+    public void removeDisconnectionListener(DisconnectionListener listener) {
+        if (listener != null) {
+            this.listeners.remove(listener);
+        } else {
+            throw new NullPointerException("Listener mustn't be null!");
+        }
+    }
+
+    private void fireDisconnectionEvent() {
+        this.listeners.forEach((listener) -> {
+            listener.reconnect();
+        });
     }
 
     private void setObjectOutputStream() {
