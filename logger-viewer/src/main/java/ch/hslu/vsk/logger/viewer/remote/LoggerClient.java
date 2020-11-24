@@ -4,6 +4,7 @@ import ch.hslu.vsk.logger.common.FileHelper;
 import ch.hslu.vsk.logger.common.LogMessage;
 import ch.hslu.vsk.logger.common.RemoteCallbackHandler;
 import ch.hslu.vsk.logger.common.RemoteLogger;
+import ch.hslu.vsk.logger.viewer.LoggerViewer;
 
 import java.io.File;
 import java.io.IOException;
@@ -16,8 +17,10 @@ import java.util.Collections;
 import java.util.logging.Logger;
 
 public class LoggerClient extends UnicastRemoteObject implements RemoteCallbackHandler {
+
     private static final Logger LOGGER = Logger.getLogger(LoggerClient.class.getName());
     private static final String REMOTE_OBJECT = "logger";
+    private LoggerViewer loggerViewer = new LoggerViewer();
 
     public LoggerClient() throws RemoteException {
         super();
@@ -35,6 +38,7 @@ public class LoggerClient extends UnicastRemoteObject implements RemoteCallbackH
     @Override
     public void handle(LogMessage message) {
         LOGGER.info(message.toString());
+        this.loggerViewer.add(message);
     }
 
     /**

@@ -20,6 +20,8 @@ public final class LoggerRegistry extends UnicastRemoteObject implements RemoteL
     @Override
     public void register(final RemoteCallbackHandler client) throws RemoteException {
         this.sender.addReceiver(client);
-        client.handle(new LogMessage("Test", LogLevel.ERROR, "Hello World"));
+        LogMessage message = new LogMessage("Test", LogLevel.ERROR, "Hello World");
+        message.setReceived();
+        client.handle(message);
     }
 }
