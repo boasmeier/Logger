@@ -30,7 +30,7 @@ public class LoggerViewer extends JFrame {
     private final JTable table;
     private final DefaultTableModel model;
     private String[] columnNames = {"LogLevel", "LogMessage", "Source", "Time-created", "Time-ReceivedServer"};
-    private static ArrayList<LogMessage> data = new ArrayList<LogMessage>();
+    private static final ArrayList<LogMessage> data = new ArrayList<LogMessage>();
     private static boolean flag = true;
 
     public LoggerViewer() {
@@ -71,7 +71,7 @@ public class LoggerViewer extends JFrame {
      *
      * @param message LogMessage Object to add.
      */
-    public final void add(LogMessage message) {
+    public final void add(final LogMessage message) {
         data.add(message);
         flag = true;
     }
@@ -81,9 +81,7 @@ public class LoggerViewer extends JFrame {
      */
     private void updateTable() {
         String[] tempData = new String[5];
-        if (data.size() == 0) {
-
-        } else {
+        if (data.size() != 0) {
             int index = data.size() - 1;
             tempData[0] = String.valueOf(data.get(index).getLogLevel());
             tempData[1] = data.get(index).getMessage();

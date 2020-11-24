@@ -36,7 +36,7 @@ public class LoggerClient extends UnicastRemoteObject implements RemoteCallbackH
     }
 
     @Override
-    public void handle(LogMessage message) {
+    public void handle(final LogMessage message) {
         LOGGER.info(message.toString());
         this.loggerViewer.add(message);
     }
@@ -44,8 +44,9 @@ public class LoggerClient extends UnicastRemoteObject implements RemoteCallbackH
     /**
      * Reads the port number from the loggerServerConfig file, which should be placed in the root directory of this
      * project. If no file or port specified, default port is 5050.
+     * @param host IP-Address of Server.
      */
-    private void setRemoteConnection(String host) {
+    private void setRemoteConnection(final String host) {
         try {
             Registry reg = LocateRegistry.getRegistry(host);
             RemoteLogger logger = (RemoteLogger) reg.lookup(REMOTE_OBJECT);
