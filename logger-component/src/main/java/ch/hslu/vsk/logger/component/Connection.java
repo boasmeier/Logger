@@ -43,8 +43,8 @@ final class Connection implements DisconnectionListener {
 
     private void startMessageHandler() {
         messageHandler.addDisconnectionListener(this);
-        new Thread(messageHandler).start();
         connect(this.host, this.port);
+        new Thread(messageHandler).start();
     }
 
     /**
