@@ -1,0 +1,1 @@
+java -cp  "./g01-loggerserver-2.0.0-SNAPSHOT.jar;./dependency/*" ch.hslu.vsk.logger.server.LoggerServer
