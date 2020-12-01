@@ -42,8 +42,7 @@ public class LoggerClient extends UnicastRemoteObject implements RemoteCallbackH
     }
 
     /**
-     * Reads the port number from the loggerServerConfig file, which should be placed in the root directory of this
-     * project. If no file or port specified, default port is 5050.
+     * Connects to registry
      * @param host IP-Address of Server.
      */
     private void setRemoteConnection(final String host) {

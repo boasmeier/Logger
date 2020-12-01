@@ -54,12 +54,12 @@ public class LoggerViewer extends JFrame {
 
         while (true) {
             while (flag) {
+                flag = false;
                 gui.updateTable();
                 gui.setVisible(true);
-                flag = false;
             }
             try {
-                Thread.sleep(10);
+                Thread.sleep(1);
             } catch (InterruptedException ex) {
                 LOGGER.info(ex.getMessage());
             }
