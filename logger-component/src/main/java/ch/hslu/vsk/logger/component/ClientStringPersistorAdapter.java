@@ -29,13 +29,11 @@ public final class ClientStringPersistorAdapter implements ClientLogPersistor {
 
     private static final Logger LOG = Logger.getLogger(ClientStringPersistorAdapter.class.getName());
 
-    private static final String PATH = "." + File.separator + "tmp_logmessage_cache.log";
     private final StringPersistor persistor;
-    private final File file;
+    private File file;
 
     public ClientStringPersistorAdapter() {
         this.persistor = new StringPersistorFile();
-        this.file = new File(PATH);
     }
 
     /**
@@ -45,6 +43,7 @@ public final class ClientStringPersistorAdapter implements ClientLogPersistor {
      */
     @Override
     public void save(final LogMessage message) {
+        file = new File("." + File.separator + "tmp_" + message.getLoggerName() + "_cache.log");
         persistor.setFile(file);
         LOG.info("Persist to file: " + file);
         String objectAsString = ObjectHelper.objectToString(message);
@@ -53,6 +52,9 @@ public final class ClientStringPersistorAdapter implements ClientLogPersistor {
 
     @Override
     public Queue<LogMessage> get() {
+        if (file == null) {
+            return new LinkedList<>();
+        }
         Queue<LogMessage> strings = new LinkedList<>();
         persistor.setFile(file);
         List<PersistedString> tmp = persistor.get(Integer.MAX_VALUE);
