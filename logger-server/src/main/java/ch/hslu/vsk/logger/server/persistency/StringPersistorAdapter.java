@@ -16,7 +16,6 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.InvalidPathException;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -74,8 +73,8 @@ public final class StringPersistorAdapter implements LogPersistor {
             String pathArgument = args.get(1);
             try {
                 if (pathArgument == null || pathArgument.equals("") || Files.notExists(Paths.get(pathArgument))) {
-                    LOGGER.warning("The specified path for the log files does not exist, " +
-                            "switching to user's desktop.");
+                    LOGGER.warning("The specified path for the log files does not exist, "
+                            + "switching to user's desktop.");
                     throw new InvalidPathException("", "");
                 }
                 arguments.add(pathArgument);
@@ -101,12 +100,6 @@ public final class StringPersistorAdapter implements LogPersistor {
         switch (FileTypeExtension.getEnum(type)) {
             case Enhanced:
                 this.persistable = new EnhancedPersist();
-                break;
-            case Xml:
-                this.persistable = new XmlPersist();
-                break;
-            case Json:
-                this.persistable = new JsonPersist();
                 break;
             default:
                 this.persistable = new BasicPersist();

@@ -13,10 +13,6 @@ final class FileTypeExtension {
         switch (type) {
             case "enhanced":
                 return FileType.Enhanced;
-            case "xml":
-                return FileType.Xml;
-            case "json":
-                return FileType.Json;
             default:
                 return FileType.Basic;
         }
