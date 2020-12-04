@@ -42,28 +42,16 @@ public class LoggerViewer extends JFrame {
         table.setFillsViewportHeight(true);
         JScrollPane scrollPane = new JScrollPane(table);
         add(scrollPane);
+        this.setSize(1200, 700);
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setResizable(true);
+        this.setVisible(true);
+        this.setTitle("g01-LoggerViewer");
     }
 
     public static void main(final String[] args) throws RemoteException {
-        final LoggerClient client = new LoggerClient();
-        LoggerViewer gui = new LoggerViewer();
-        gui.setSize(1200, 700);
-        gui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        gui.setResizable(true);
-        gui.setTitle("g01-LoggerViewer");
-
-        while (true) {
-            while (flag) {
-                gui.updateTable();
-                gui.setVisible(true);
-                flag = false;
-            }
-            try {
-                Thread.sleep(10);
-            } catch (InterruptedException ex) {
-                LOGGER.info(ex.getMessage());
-            }
-        }
+        final LoggerViewer gui = new LoggerViewer();
+        final LoggerClient client = new LoggerClient(gui);
     }
 
     /**
@@ -73,7 +61,7 @@ public class LoggerViewer extends JFrame {
      */
     public final void add(final LogMessage message) {
         data.add(message);
-        flag = true;
+        this.updateTable();
     }
 
     /**
