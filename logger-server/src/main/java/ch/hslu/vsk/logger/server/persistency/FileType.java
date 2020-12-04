@@ -3,8 +3,6 @@ package ch.hslu.vsk.logger.server.persistency;
 public enum FileType {
     Basic,
     Enhanced,
-    Xml,
-    Json;
 }
 
 final class FileTypeExtension {
